@@ -53,6 +53,9 @@ def create_instruments
     Instrument.create(
         :name => "Violin"
     )
+    Instrument.create(
+        :name => "Bassoon"
+    )
     p "Created new instruments"
 end
 
@@ -68,8 +71,8 @@ def create_profiles
 
 
     Profile.create(
-        :user_id=>  user_meryl.id,
-        :instrument_id => instrument_soprano.id
+        :user=>  user_meryl,
+        :instrument => instrument_soprano
     )
     Profile.create(
         :user =>  user_meryl,
@@ -81,7 +84,7 @@ def create_profiles
         :instrument => instrument_piano
     )
     Profile.create(
-        :user =>  user_meryl,
+        :user =>  user_josh,
         :instrument => instrument_tenor
     )
 
