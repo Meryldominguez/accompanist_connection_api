@@ -5,7 +5,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user = users(:one)
     @user_count = users.count
   end
-
   test "should get index" do
     get users_url, as: :json
     assert_response :success
@@ -31,7 +30,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should update user" do
     new_email = "new@email.com"
-    
+
     patch user_url(@user), params: { user: { email: new_email } }, as: :json
     assert_response :success
 

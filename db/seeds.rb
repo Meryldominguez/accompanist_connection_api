@@ -14,6 +14,8 @@ Instrument.destroy_all
 p "Destroyed all instruments"
 Profile.destroy_all
 p "Destroyed all profiles"
+Role.destroy_all
+p "Destroyed all roles"
 
 
 def create_users
@@ -37,6 +39,9 @@ def create_users
         :last_name => "Robillard",
         :email => "ash@email.com",
     )
+    @user_meryl = User.find_by(first_name:"Meryl")
+    @user_josh = User.find_by(first_name:"Josh")
+    @user_ash = User.find_by(first_name:"Ash")
     p "Created new users"
 end
 
@@ -56,47 +61,48 @@ def create_instruments
     Instrument.create(
         :name => "Bassoon"
     )
+    @instrument_piano = Instrument.find_by(name:"Piano")
+    @instrument_soprano = Instrument.find_by(name:"Voice, Soprano")
+    @instrument_tenor = Instrument.find_by(name:"Voice, Tenor")
+    @instrument_violin = Instrument.find_by(name:"Violin")
     p "Created new instruments"
 end
 
 def create_profiles
-    user_meryl = User.find_by(first_name:"Meryl")
-    user_josh = User.find_by(first_name:"Josh")
-    user_ash = User.find_by(first_name:"Ash")
-
-    instrument_piano = Instrument.find_by(name:"Piano")
-    instrument_soprano = Instrument.find_by(name:"Voice, Soprano")
-    instrument_tenor = Instrument.find_by(name:"Voice, Tenor")
-    instrument_violin = Instrument.find_by(name:"Violin")
-
-
     Profile.create(
-        :user=>  user_meryl,
-        :instrument => instrument_soprano
+        :user=>  @user_meryl,
+        :instrument => @instrument_soprano
     )
     Profile.create(
-        :user =>  user_meryl,
-        :instrument => instrument_violin
+        :user =>  @user_meryl,
+        :instrument => @instrument_violin
     )
 
     Profile.create(
-        :user =>  user_josh,
-        :instrument => instrument_piano
+        :user =>  @user_josh,
+        :instrument => @instrument_piano
     )
     Profile.create(
-        :user =>  user_josh,
-        :instrument => instrument_tenor
+        :user =>  @user_josh,
+        :instrument => @instrument_tenor
     )
 
     Profile.create(
-        :user =>  user_ash,
-        :instrument => instrument_soprano
+        :user =>  @user_ash,
+        :instrument => @instrument_soprano
     )
     p "Created new profiles"
 end
 
+def create_roles
+    @admin_role = Role.create(name: 'admin')
+    @user_josh.roles << @admin_role
+    @user_meryl.roles << @admin_role
+    p "Created and assigned admin role"
+end
 
 create_users
 create_instruments
 create_profiles
+create_roles
 

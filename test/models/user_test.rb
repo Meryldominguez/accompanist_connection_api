@@ -31,4 +31,12 @@ class UserTest < ActiveSupport::TestCase
     @user.email = @new_user.email
     assert_not @user.valid?
   end
+
+  test 'user should have role' do
+    assert_not @user.role? :new_role
+  
+    @user.roles << Role.new(name: 'new_role')
+  
+    assert @user.role? :admin
+  end
 end
