@@ -3,7 +3,7 @@ FactoryBot.define do
     first_name { 'Josh' }
     last_name  { 'Blue' }
     email { Faker::Internet.email }
-
+    roles { [] }
     trait :with_role do
       transient do
         role { nil }
@@ -11,7 +11,7 @@ FactoryBot.define do
       roles { [association(:role, name:role)] }
     end
     
-    factory :admin_user, class: User do
+    trait :admin_user do
       roles { [association(:admin_role)] }
     end
   end

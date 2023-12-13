@@ -30,7 +30,7 @@ RSpec.describe User, type: :model do
   end
   describe "The #admin? function" do
     context "with a user with an admin role" do
-      let(:admin_user) { build(:admin_user) }
+      let(:admin_user) { build(:user, :admin_user) }
       it "returns true" do
         expect(admin_user.role?(:admin)).to be true
       end
@@ -38,7 +38,7 @@ RSpec.describe User, type: :model do
   end
   describe "The #admin? function" do
     context "with a user with an admin role" do
-      let(:admin_user) { build(:admin_user) }
+      let(:admin_user) { build(:user, :admin_user) }
       it "returns true" do
         expect(admin_user.admin?).to be true
       end
@@ -70,6 +70,26 @@ RSpec.describe User, type: :model do
       let(:user) { build(:user) }
       it "returns false" do
         expect(user.role?(:moderator)).to be false
+      end
+    end
+  end
+
+  describe "The #add_admin function" do
+    context "with a normal user" do
+      let(:user) { create(:user) }
+      let!(:role) { create(:admin_role) }
+
+      it "adds the admin role" do
+        expect(user.roles.map(&:name)).not_to include "admin"
+        user.make_admin
+        expect(user.roles.map(&:name)).to include "admin"
+      end
+    end
+    context "with a user that already has the admin role" do
+      let(:user) { create(:user,:admin_user) }
+      it "throws an error" do
+        expect(user.roles.map(&:name)).to include "admin"
+        expect{user.make_admin}.to raise_error(ActiveRecord::RecordNotUnique)
       end
     end
   end
