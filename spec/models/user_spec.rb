@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe "a valid User" do
     fixtures :users
-
     it "is valid with valid attributes" do
       subject = users(:one)
       expect(subject).to be_valid
@@ -34,6 +33,5 @@ RSpec.describe User, type: :model do
       subject.email=subject_two.email
       expect(subject).to_not be_valid
     end
-
   end
 end
