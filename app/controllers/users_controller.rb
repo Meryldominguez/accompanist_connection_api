@@ -9,12 +9,12 @@ class UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-    render json: @users, status: :ok
+    render json: UserSerializer.new(@users).serializable_hash.to_json, status: :ok
   end
 
   # GET /users/1
   def show
-    render json: @user
+    render json: UserSerializer.new(@user)
   end
 
   # POST /users
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: UserSerializer.new(@user)
     else
       render json: @user.errors, status: :unprocessable_entity
     end
