@@ -45,7 +45,6 @@ RSpec.describe 'Auths', type: :request do
       it 'should return an error message' do
         expect(JSON(response.body)['message']).to eq('Please send both email and password')
         expect(JSON(response.body)['error']).to eq('param is missing or the value is empty: password')
-
       end
     end
     context 'with missing email' do

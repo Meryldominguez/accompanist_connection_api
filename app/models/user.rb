@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_secure_password
+
   has_many :profiles, dependent: :destroy
   has_many :instruments, through: :profiles
   has_many :user_roles, dependent: :destroy
@@ -8,8 +10,10 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :password_digest, presence: true
   validates :email, presence: true, length: { minimum: 4, maximum: 50 }, uniqueness: { case_sensitive: false },
                     format: { with: /\A(.+)@(.+)\z/, message: 'Email invalid' }
+  before_save { email.downcase! }
 
   def role?(role)
     roles.any? { |r| r.name.underscore.to_sym == role }
