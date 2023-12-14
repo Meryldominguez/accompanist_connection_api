@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
     return unless request.headers['Authorization']
 
     user_id = decoded_token[0]['user_id']
-    @user = User.find_by(id: user_id)
+    @current_user = User.find_by(id: user_id)
   end
 
   def authorized
