@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     user = User.create!(user_params)
     @token = encode_token(user_id: user.id)
     render json: {
-      user: UserSerializer.new(user).serializable_hash.to_json,
+      user: UserSerializer.new(user),
       token: @token
     }, status: :created
   end
@@ -52,7 +52,7 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password)
+    params.permit(:first_name, :last_name, :email, :password)
   end
 
   def handle_invalid_record(err)

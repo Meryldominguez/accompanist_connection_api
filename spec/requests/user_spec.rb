@@ -58,8 +58,19 @@ RSpec.describe 'Users', type: :request do
       end
     end
   end
-  describe 'POST create' do
+  describe 'POST #create' do
+    let!(:user) { build(:user) }
+    before do
+      @user_count = User.count
+      post users_path,
+           params: { first_name: 'new', last_name: 'new', email: 'new@email.com',
+                     password: 'password' }
+    end
+    it 'should return a 201 status' do
+      expect(response).to have_http_status(:created)
+    end
     it 'should create a new user' do
+      expect(User.count).to equal @user_count+1
     end
   end
   describe 'PATCH/PUT #update' do

@@ -50,6 +50,7 @@ group :development, :test do
   gem 'faker'
   gem 'rspec-rails', '~> 6.1.0'
   gem 'rubocop', '~> 1.59', require: false
+  gem 'simplecov', '~> 0.22.0', require: false
 end
 
 group :development do
