@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'a valid User' do
-    let(:user) { build(:user) }
+    let(:user) { create(:user) }
     it 'is valid with valid attributes' do
       expect(user).to be_valid
     end
@@ -20,6 +20,10 @@ RSpec.describe User, type: :model do
       user.email = nil
       expect(user).to_not be_valid
     end
+    it 'is not valid without a password' do
+      user.password_digest = nil
+      expect(user).to_not be_valid
+    end
     it 'is not valid with a bad email' do
       user.email = 'bademail'
       expect(user).to_not be_valid
@@ -28,6 +32,12 @@ RSpec.describe User, type: :model do
       user_two = create(:user)
       user.email = user_two.email
       expect(user).to_not be_valid
+    end
+    it 'it downcases email' do
+      bad_format_email = 'UPPERCASE@email.com'
+      user.email = bad_format_email
+      user.save
+      expect(user.email).to eq bad_format_email.downcase
     end
   end
   describe 'The #admin? function' do

@@ -6,7 +6,8 @@ FactoryBot.define do
     last_name  { 'Blue' }
     email { Faker::Internet.email }
     roles { [] }
-    password_digest {Faker::Internet.password}
+    password_digest { Faker::Internet.password }
+
     trait :with_role do
       transient do
         role { nil }

@@ -20,15 +20,15 @@ Role.destroy_all
 p 'Destroyed all roles'
 
 def create_users
-  User.create(first_name: 'Meryl', last_name: 'Dominguez', email: 'meryl@email.com')
-  User.create(first_name: 'Aaron', last_name: 'Keeney', email: 'aaron@email.com')
-  User.create(first_name: 'Josh', last_name: 'Blue', email: 'josh@email.com')
-  User.create(first_name: 'Ash', last_name: 'Robillard', email: 'ash@email.com')
+  User.create(first_name: 'Meryl', last_name: 'Dominguez', email: 'meryl@email.com', password: 'password')
+  User.create(first_name: 'Aaron', last_name: 'Keeney', email: 'aaron@email.com', password: 'password')
+  User.create(first_name: 'Josh', last_name: 'Blue', email: 'josh@email.com', password: 'password')
+  User.create(first_name: 'Ash', last_name: 'Robillard', email: 'ash@email.com', password: 'password')
 
   @user_meryl = User.find_by(first_name: 'Meryl')
   @user_josh = User.find_by(first_name: 'Josh')
   @user_ash = User.find_by(first_name: 'Ash')
-  p 'Created new users'
+  p "Created #{User.count} new users"
 end
 
 def create_instruments
@@ -42,7 +42,7 @@ def create_instruments
   @instrument_soprano = Instrument.find_by(name: 'Voice, Soprano')
   @instrument_tenor = Instrument.find_by(name: 'Voice, Tenor')
   @instrument_violin = Instrument.find_by(name: 'Violin')
-  p 'Created new instruments'
+  p "Created #{Instrument.count} new instruments"
 end
 
 def create_profiles
@@ -52,14 +52,14 @@ def create_profiles
   Profile.create(user: @user_josh, instrument: @instrument_tenor)
   Profile.create(user: @user_ash, instrument: @instrument_soprano)
 
-  p 'Created new profiles'
+  p "Created #{Profile.count} new profiles"
 end
 
 def create_roles
   @admin_role = Role.create(name: 'admin')
-  @user_josh.roles << @admin_role
-  @user_meryl.roles << @admin_role
-  p 'Created and assigned admin role'
+  @user_josh.make_admin
+  @user_meryl.make_admin
+  p "Created and assigned #{Role.find_by(name: 'admin').user_roles.count} admin roles"
 end
 
 create_users

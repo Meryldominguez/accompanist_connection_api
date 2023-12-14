@@ -2,14 +2,14 @@
 
 Rails.application.routes.draw do
   scope '/api' do
-    resources :profiles
-    resources :instruments
-    resources :users
-    resources :user_roles
-    resources :roles
+    resources :profiles, only: []
+    resources :instruments, only: []
+    resources :users, only: []
+    resources :user_roles, only: []
+    resources :roles, only: []
   end
   scope '/auth' do
-    post '/login', to: 'auth#login'
+    post '/login', to: 'auth#login', as: 'login'
   end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
