@@ -67,7 +67,70 @@ RSpec.describe 'Users', type: :request do
     end
   end
   describe 'DELETE #destroy' do
-    it 'should delete a user' do
+    context 'with an authenticated user' do
+      context 'who is an admin' do
+        let!(:user) { create(:user) }
+        let!(:admin_user) { create(:user, :admin_user) }
+        context 'deleting an account' do
+          before do
+            @user_count = User.count
+            delete user_path(user.id), headers: create_auth_header(admin_user)
+          end
+          it 'should return a 204 status' do
+            expect(response).to have_http_status(:no_content)
+          end
+          it 'should have an empty body' do
+            expect(response.body).to eq ''
+          end
+          it 'should delete a user' do
+            expect(User.count).to equal @user_count - 1
+          end
+        end
+      end
+      context 'who is not an admin' do
+        let!(:user) { create(:user) }
+        context 'deleting their own account' do
+          before do
+            @user_count = User.count
+            delete user_path(user.id), headers: create_auth_header(user)
+          end
+          it 'should return a 204 status' do
+            expect(response).to have_http_status(:no_content)
+          end
+          it 'should have an empty body' do
+            expect(response.body).to eq ''
+          end
+          it 'should delete a user' do
+            expect(User.count).to equal @user_count - 1
+          end
+        end
+        context "deleting someone else's account" do
+          let!(:user_two) { create(:user) }
+
+          before do
+            @user_count = User.count
+            delete user_path(user_two.id), headers: create_auth_header(user)
+          end
+          it 'should return a 401 status' do
+            expect(response).to have_http_status(:unauthorized)
+          end
+          it 'should have an empty body' do
+            expect(response.body).to eq ''
+          end
+          it 'should not delete a user' do
+            expect(User.count).to equal @user_count
+          end
+        end
+      end
+    end
+    context 'with unauthenticated user' do
+      let(:user) { create(:user) }
+      before do
+        delete user_path(user.id)
+      end
+      it 'should return a 401 status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
 end

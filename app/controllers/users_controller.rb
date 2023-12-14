@@ -38,7 +38,9 @@ class UsersController < ApplicationController
 
   # DELETE /users/1
   def destroy
+    authorize @user
     @user.destroy!
+    render json: '', status: :no_content
   end
 
   private

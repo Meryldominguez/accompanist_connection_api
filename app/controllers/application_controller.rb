@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  include Pundit::Authorization
   before_action :authorized
-  rescue_from JWT::DecodeError, with: :error_render_method
+  rescue_from JWT::DecodeError, with: :handle_jwt_invalid
+  rescue_from Pundit::NotAuthorizedError, with: :handle_unauthorized
 
   def encode_token(payload)
     JWT.encode(payload, Rails.application.credentials.json_web_token_secret)
@@ -31,7 +33,11 @@ class ApplicationController < ActionController::API
 
   private
 
-  def error_render_method
+  def handle_jwt_invalid
     render json: { message: 'JWT token is invalid or expired' }, status: :unauthorized
+  end
+
+  def handle_unauthorized
+    render json: '', status: :unauthorized
   end
 end
