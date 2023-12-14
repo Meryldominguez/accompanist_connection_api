@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe 'Auths', type: :request do
-  PASSWORD = 'password'
-  let(:user) { create(:user, password_digest: BCrypt::Password.create(PASSWORD)) }
+  user_password = 'password'
+  let(:user) { create(:user, password_digest: BCrypt::Password.create(user_password)) }
   describe 'POST auth/login' do
     context 'with valid email/password' do
       before do
-        @params = { email: user.email, password: PASSWORD }
+        @params = { email: user.email, password: user_password }
         post login_url, params: @params, as: :json
       end
       it 'returns accepted' do
@@ -49,7 +49,7 @@ RSpec.describe 'Auths', type: :request do
     end
     context 'with missing email' do
       before do
-        @params = { password: PASSWORD }
+        @params = { password: user_password }
         post login_url, params: @params, as: :json
       end
       it 'should return an error' do

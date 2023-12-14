@@ -4,16 +4,58 @@ require 'rails_helper'
 
 RSpec.describe 'Users', type: :request do
   include ControllerHelper
+
   describe 'GET #index' do
-    let(:user) { build(:user) }
-    it 'should return all users' do
-      user_login(user)
-      get users_path
-      expect(response).to have_http_status(:ok)
+    context 'with authenticated user' do
+      let!(:user) { create(:user) }
+      let!(:second_user) { create(:user) }
+      before do
+        get users_path, headers: create_auth_header(user)
+      end
+      it 'should return a 200 status' do
+        expect(response).to have_http_status(:ok)
+      end
+      it 'should return all users' do
+        expect(JSON(response.body)['data'].count).to be 2
+        expect(JSON(response.body)['data'][0]['attributes']['id']).to equal user.id
+      end
+    end
+    context 'with unauthenticated user' do
+      let!(:user) { create(:user) }
+      before do
+        get users_path
+      end
+      it 'should return a 401 status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
   describe 'GET #show' do
-    it 'should return one user' do
+    context 'with authenticated user' do
+      let!(:user) { create(:user) }
+      let!(:second_user) { create(:user) }
+      before do
+        get user_path(user.id), headers: create_auth_header(user)
+      end
+      it 'should return a 200 status' do
+        expect(response).to have_http_status(:ok)
+      end
+      it 'should return one user' do
+        expect(JSON(response.body)['data']['attributes']['id']).to equal user.id
+      end
+      it 'should not allow user to view profile that isnt theirs' do
+        pending 'Should this be allowed'
+        raise
+      end
+    end
+    context 'with unauthenticated user' do
+      let!(:user) { create(:user) }
+      before do
+        get user_path(user.id)
+      end
+      it 'should return a 401 status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
     end
   end
   describe 'POST create' do
