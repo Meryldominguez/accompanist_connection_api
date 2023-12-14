@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class UserRolesController < ApplicationController
-  before_action :set_user_role, only: %i[ show update destroy ]
+  before_action :set_user_role, only: %i[show update destroy]
 
   # GET /user_roles
   def index
@@ -39,13 +41,14 @@ class UserRolesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user_role
-      @user_role = UserRole.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def user_role_params
-      params.require(:user_role).permit(:user_id, :role_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user_role
+    @user_role = UserRole.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def user_role_params
+    params.require(:user_role).permit(:user_id, :role_id)
+  end
 end
