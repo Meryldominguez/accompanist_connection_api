@@ -105,4 +105,27 @@ RSpec.describe User, type: :model do
       end
     end
   end
+  describe 'The #remove_role function' do
+    let!(:role) { create(:role, name: 'moderator') }
+
+    context 'with a user with a role' do
+      let(:user) { create(:user) }
+
+      it 'removes the role from the user' do
+        user.roles << role
+
+        expect(user.role?(:moderator)).to be true
+        user.remove_role(:moderator)
+        expect(user.role?(:moderator)).to be false
+      end
+    end
+    context 'with a user with no role' do
+      let!(:user) { create(:user) }
+      it 'returns an error' do
+        expect do
+          user.remove_role(:moderator)
+        end.to raise_error(Exceptions::ResourceNotConnectedError)
+      end
+    end
+  end
 end
