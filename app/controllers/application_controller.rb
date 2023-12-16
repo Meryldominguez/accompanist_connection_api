@@ -14,7 +14,7 @@ class ApplicationController < ActionController::API
     header = request.headers['Authorization']
     return unless header
 
-    token = header.split(' ')[1]
+    token = header.split[1]
     JWT.decode(token, Rails.application.credentials.json_web_token_secret, true, algorithm: 'HS256')
   end
 
