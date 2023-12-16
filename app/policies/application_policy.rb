@@ -47,7 +47,9 @@ class ApplicationPolicy
     end
 
     def resolve
-      scope
+      return unless user.admin?
+
+      scope.all
     end
   end
 end

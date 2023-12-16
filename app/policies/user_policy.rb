@@ -1,25 +1,27 @@
 # frozen_string_literal: true
 
 class UserPolicy < ApplicationPolicy
-  def initialize(current_user, user)
-    super
-    raise Pundit::NotAuthorizedError, 'must be logged in' unless current_user
+  class Scope < Scope; end
 
-    @current_user = current_user
+  def initialize(user, record)
+    super
+    raise Pundit::NotAuthorizedError, 'must be logged in' unless user
+
     @user = user
+    @record = record
   end
 
   def update?
-    @current_user.admin? || same_user?
+    @user.admin? || same_user?
   end
 
   def destroy?
-    @current_user.admin? || same_user?
+    @user.admin? || same_user?
   end
 
   private
 
   def same_user?
-    @current_user.id == @user.id
+    @user.id == @record.id
   end
 end
