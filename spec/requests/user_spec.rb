@@ -29,11 +29,22 @@ RSpec.describe 'Users', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
     end
+    context 'with user with a bad token' do
+      let!(:user) { create(:user) }
+      before do
+        get users_path, headers: { 'Authorization' => 'Bearer badtoken' }
+      end
+      it 'should return a 401 status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+      it 'should return a message' do
+        expect(JSON(response.body)['message']).to eq('JWT token is invalid or expired')
+      end
+    end
   end
   describe 'GET #show' do
     context 'with authenticated user' do
       let!(:user) { create(:user) }
-      let!(:second_user) { create(:user) }
       before do
         get user_path(user.id), headers: create_auth_header(user)
       end
@@ -46,6 +57,14 @@ RSpec.describe 'Users', type: :request do
       it 'should not allow user to view profile that isnt theirs' do
         pending 'Should this be allowed'
         raise
+      end
+      context 'looking up a user that doesnt exist' do
+        before do
+          get user_path(user.id + 1), headers: create_auth_header(user)
+        end
+        it 'should return a 404 status' do
+          expect(response).to have_http_status(:not_found)
+        end
       end
     end
     context 'with unauthenticated user' do
@@ -97,13 +116,15 @@ RSpec.describe 'Users', type: :request do
         end
         context 'who fails to update for some reason' do
           before do
-            expect_any_instance_of(User).to receive(:update).and_return(false)
             patch user_path(user.id),
-                  params: { first_name: 'changed' },
+                  params: { email: admin_user.email },
                   headers: create_auth_header(admin_user)
           end
           it 'should return a 422 status' do
             expect(response).to have_http_status(:unprocessable_entity)
+          end
+          it 'should return a message' do
+            expect(JSON(response.body)['errors']).to eq(['Email has already been taken'])
           end
 
           it 'should not update a user' do
