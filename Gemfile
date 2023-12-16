@@ -49,11 +49,12 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 6.4.2'
   gem 'faker'
   gem 'rspec-rails', '~> 6.1.0'
-  gem 'rubocop', '~> 1.59', require: false
+
   gem 'simplecov', '~> 0.22.0', require: false
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'rubocop', '~> 1.59', require: false
 end

@@ -1,10 +1,17 @@
-#!/usr/bin/env zsh
-
+#!/usr/bin/env bash
+echo "stashing unstaged changes"
+git stash --keep-index
 echo "Running pre-commit hook"
-./scripts/run-rubocop.bash
+./scripts/run-rubocop
 
 # $? stores exit value of the last command
 if [ $? -ne 0 ]; then
- echo "Code must be clean before commiting"
+ echo "Code must be clean before commiting. Run rubocop for linting."
+ git 
  exit 1
+elif [ $? -eq 0 ] 
+ git add .
+ git commit -m --no-verify "rubocop changes"
 fi
+echo "unstashing changes..."
+git stash pop
