@@ -19,6 +19,7 @@ class User < ApplicationRecord
   end
 
   def add_role(role)
+    error_unless_role_exists(role)
     roles << Role.find_by(name: role)
   end
 
@@ -42,7 +43,6 @@ class User < ApplicationRecord
   private
 
   def error_unless_role_exists(role)
-    Role.find_by(name: role)
-    raise ActiveRecord::RecordNotFound unless role
+    raise ActiveRecord::RecordNotFound unless Role.find_by(name: role)
   end
 end

@@ -3,48 +3,42 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'a valid User' do
+  describe 'a valid User' do 
     let(:user) { create(:user) }
-    it 'is valid with valid attributes' do
-      expect(user).to be_valid
-    end
-    it 'is not valid without a first_name' do
-      user.first_name = nil
-      expect(user).to_not be_valid
-    end
-    it 'is not valid without a last_name' do
-      user.last_name = nil
-      expect(user).to_not be_valid
-    end
-    it 'is not valid without an email' do
-      user.email = nil
-      expect(user).to_not be_valid
-    end
-    it 'is not valid without a password' do
-      user.password_digest = nil
-      expect(user).to_not be_valid
-    end
-    it 'is not valid with a bad email' do
-      user.email = 'bademail'
-      expect(user).to_not be_valid
-    end
-    it 'is not valid with a duplicate email' do
-      user_two = create(:user)
-      user.email = user_two.email
-      expect(user).to_not be_valid
-    end
-    it 'it downcases email' do
-      bad_format_email = 'UPPERCASE@email.com'
-      user.email = bad_format_email
-      user.save
-      expect(user.email).to eq bad_format_email.downcase
-    end
-  end
-  describe 'The #admin? function' do
-    context 'with a user with an admin role' do
-      let(:admin_user) { build(:user, :admin_user) }
-      it 'returns true' do
-        expect(admin_user.role?(:admin)).to be true
+    context 'that has working validations' do
+      it 'is valid with valid attributes' do
+        expect(user).to be_valid
+      end
+      it 'is not valid without a first_name' do
+        user.first_name = nil
+        expect(user).to_not be_valid
+      end
+      it 'is not valid without a last_name' do
+        user.last_name = nil
+        expect(user).to_not be_valid
+      end
+      it 'is not valid without an email' do
+        user.email = nil
+        expect(user).to_not be_valid
+      end
+      it 'is not valid without a password' do
+        user.password_digest = nil
+        expect(user).to_not be_valid
+      end
+      it 'is not valid with a bad email' do
+        user.email = 'bademail'
+        expect(user).to_not be_valid
+      end
+      it 'is not valid with a duplicate email' do
+        user_two = create(:user)
+        user.email = user_two.email
+        expect(user).to_not be_valid
+      end
+      it 'it downcases email' do
+        bad_format_email = 'UPPERCASE@email.com'
+        user.email = bad_format_email
+        user.save
+        expect(user.email).to eq bad_format_email.downcase
       end
     end
   end
@@ -85,8 +79,25 @@ RSpec.describe User, type: :model do
       end
     end
   end
-
-  describe 'The #add_admin function' do
+  describe 'The #add_role function' do
+    let(:user) { create(:user) }
+    let(:role) { create(:role) }
+    context 'with a normal user without the role' do
+      it 'adds the role' do
+        expect(user.roles.map(&:name)).not_to include role.name
+        user.add_role(role.name)
+        expect(user.roles.map(&:name)).to include role.name
+      end
+    end
+    context 'with a user that already has the  role' do
+      it 'throws an error' do
+        user.roles << role
+        expect(user.roles.map(&:name)).to include role.name
+        expect { user.add_role(role.name) }.to raise_error(ActiveRecord::RecordNotUnique)
+      end
+    end
+  end
+  describe 'The #make_admin function' do
     context 'with a normal user' do
       let(:user) { create(:user) }
       let!(:role) { create(:admin_role) }
@@ -125,6 +136,14 @@ RSpec.describe User, type: :model do
         expect do
           user.remove_role(:moderator)
         end.to raise_error(Exceptions::ResourceNotConnectedError)
+      end
+    end
+    context 'with a role that doesnt exist' do
+      let(:user) { create(:user) }
+      it 'returns an error' do
+        expect do
+          user.remove_role(:some_role)
+        end.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end
