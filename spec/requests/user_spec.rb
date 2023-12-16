@@ -95,6 +95,21 @@ RSpec.describe 'Users', type: :request do
             expect(User.find(user.id).email).to eq @new_email
           end
         end
+        context 'who fails to update for some reason' do
+          before do
+            expect_any_instance_of(User).to receive(:update).and_return(false)
+            patch user_path(user.id),
+                  params: { first_name: 'changed' },
+                  headers: create_auth_header(admin_user)
+          end
+          it 'should return a 422 status' do
+            expect(response).to have_http_status(:unprocessable_entity)
+          end
+
+          it 'should not update a user' do
+            expect(User.find(user.id).attributes).to eq(user.attributes)
+          end
+        end
       end
       context 'who is not an admin' do
         let!(:user) { create(:user) }

@@ -14,6 +14,10 @@ class User < ApplicationRecord
                     format: { with: /\A(.+)@(.+)\z/, message: 'Email invalid' }
   before_save { email.downcase! }
 
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
   def role?(role)
     roles.any? { |r| r.name.underscore.to_sym == role }
   end

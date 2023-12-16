@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  describe 'a valid User' do 
+  describe 'a valid User' do
     let(:user) { create(:user) }
     context 'that has working validations' do
       it 'is valid with valid attributes' do
@@ -40,6 +40,12 @@ RSpec.describe User, type: :model do
         user.save
         expect(user.email).to eq bad_format_email.downcase
       end
+    end
+  end
+  describe 'The #full_name function' do
+    let(:user) { create(:user) }
+    it 'returns the concatenated name' do
+      expect(user.full_name).to eq "#{user.first_name} #{user.last_name}"
     end
   end
   describe 'The #admin? function' do
