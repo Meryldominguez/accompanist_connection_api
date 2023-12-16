@@ -7,11 +7,10 @@ echo "Running pre-commit hook"
 # $? stores exit value of the last command
 if [ $? -ne 0 ]; then
  echo "Code must be clean before commiting. Run rubocop for linting."
- git 
  exit 1
-elif [ $? -eq 0 ] 
- git add .
- git commit -m --no-verify "rubocop changes"
+else
+ echo "Adding rubocop changes to your commit"
+ git add -u
 fi
 echo "unstashing changes..."
 git stash pop
