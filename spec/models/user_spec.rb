@@ -48,6 +48,17 @@ RSpec.describe User, type: :model do
       expect(user.full_name).to eq "#{user.first_name} #{user.last_name}"
     end
   end
+  describe 'The #confirm! function' do
+    let(:user) { create(:user, :unconfirmed) }
+
+    it 'sets the confirmed_at attribute for the user' do
+      Timecop.freeze do
+        expect(user.confirmed_at).to be nil
+        user.confirm!
+        expect(user.confirmed_at).to eq Time.current
+      end
+    end
+  end
   describe 'The #admin? function' do
     context 'with a user with an admin role' do
       let(:admin_user) { build(:user, :admin_user) }

@@ -2,7 +2,10 @@
 
 class ApplicationController < ActionController::API
   include Pundit::Authorization
+
   before_action :authorized
+  before_action :user_confirmed
+
   rescue_from JWT::DecodeError, with: :handle_jwt_invalid
   rescue_from Pundit::NotAuthorizedError, with: :handle_unauthorized
 
@@ -29,6 +32,12 @@ class ApplicationController < ActionController::API
     return unless current_user.nil?
 
     render json: { message: 'Please log in' }, status: :unauthorized
+  end
+
+  def user_confirmed
+    return unless current_user.unconfirmed?
+
+    render json: { message: 'Please confirm your email before continuing' }, status: :unauthorized
   end
 
   private

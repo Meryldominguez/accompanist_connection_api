@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record
 
-  skip_before_action :authorized, only: [:create]
+  skip_before_action :authorized, :user_confirmed, only: [:create]
   before_action :set_user, only: %i[show update destroy]
 
   # GET /users
@@ -20,6 +20,7 @@ class UsersController < ApplicationController
   # POST /users
   def create
     user = User.create!(user_params)
+    user.send_confirmation_email!
     @token = encode_token(user_id: user.id)
     render json: {
       user: UserSerializer.new(user),

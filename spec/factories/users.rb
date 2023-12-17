@@ -7,6 +7,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     roles { [] }
     password_digest { Faker::Internet.password }
+    confirmed_at { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now) }
 
     trait :with_role do
       transient do
@@ -17,6 +18,10 @@ FactoryBot.define do
 
     trait :admin_user do
       roles { [association(:admin_role)] }
+    end
+
+    trait :unconfirmed do
+      confirmed_at { nil }
     end
   end
 end

@@ -2,6 +2,7 @@
 
 class AuthController < ApplicationController
   skip_before_action :authorized, only: [:login]
+  skip_before_action :user_confirmed, only: [:login]
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
   rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
 
