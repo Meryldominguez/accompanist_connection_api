@@ -4,5 +4,5 @@ set -e
 
 cd "${0%/*}/.."
 
-echo "Running rubocop"
-rubocop -a
+echo "Running Tests!"
+rspec
