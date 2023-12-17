@@ -9,8 +9,8 @@ Rails.application.routes.draw do
     resources :roles, only: []
   end
   scope '/confirm' do
-    post '/resend', to: 'confirmations#create', as: 'resend_confirmation'
-    post '/', to: 'confirmations#edit', as: 'confirm', param: :confirmation_token
+    post '/resend', to: 'confirmations#resend', as: 'resend_confirmation'
+    post '/', to: 'confirmations#confirm', as: 'confirm', param: :confirmation_token
   end
   scope '/auth' do
     post '/login', to: 'auth#login', as: 'login'

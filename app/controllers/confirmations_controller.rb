@@ -1,25 +1,37 @@
 # frozen_string_literal: true
 
 class ConfirmationsController < ApplicationController
-  def create
-    @user = User.find_by(email: params[:user][:email].downcase)
+  skip_before_action :user_confirmed, only: %i[resend confirm]
 
+  def resend
+    @user = User.find_by(email: resend_params['email'])
     if @user.present? && @user.unconfirmed?
-      redirect_to root_path, notice: 'Check your email for confirmation instructions.'
+      @user.send_confirmation_email!
+      render json: { message: 'Email with confirmation has been resent' }, status: :ok
     else
-      redirect_to new_confirmation_path,
-                  alert: 'We could not find a user with that email or that email has already been confirmed.'
+      render json: { message: 'We could not find a user with that email or that email has already been confirmed' },
+             status: :bad_request
     end
   end
 
-  def edit
-    @user = User.find_signed(params[:confirmation_token], purpose: :confirm_email)
-
-    if @user.present?
+  def confirm
+    @user = User.find_signed(confirm_params['confirmation_token'], purpose: :confirm_email)
+    if @user.present? && @user.unconfirmed?
       @user.confirm!
-    #   redirect_to root_path, notice: "Your account has been confirmed."
+      render json: { message: 'Your account has been confirmed' }, status: :ok
     else
-      redirect_to new_confirmation_path, alert: 'Invalid token.'
+      render json: { message: 'We could not find a user with that email or that email has already been confirmed' },
+             status: :bad_request
     end
+  end
+
+  private
+
+  def resend_params
+    params.require(:confirmation).permit(:email)
+  end
+
+  def confirm_params
+    params.require(:confirmation).permit(:confirmation_token)
   end
 end

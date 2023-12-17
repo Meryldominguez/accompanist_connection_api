@@ -89,6 +89,7 @@ Metrics/BlockLength:
   Enabled: true
   Exclude:
     - 'spec/**/*.rb'
+    - 'config/environments/*.rb'
 Metrics/CollectionLiteralLength: # new in 1.47
   Enabled: true
 Naming/BlockForwarding: # new in 1.24
