@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  CONFIRMATION_TOKEN_EXPIRATION = 10.minutes
+
   has_secure_password
 
   has_many :profiles, dependent: :destroy
@@ -11,11 +13,27 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :email, presence: true, length: { minimum: 4, maximum: 50 }, uniqueness: { case_sensitive: false },
-                    format: { with: /\A(.+)@(.+)\z/, message: 'Email invalid' }
+                    format: { with: URI::MailTo::EMAIL_REGEXP, message: 'Email invalid' }
   before_save { email.downcase! }
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def confirm!
+    update_columns(confirmed_at: Time.current)
+  end
+
+  def confirmed?
+    confirmed_at.present?
+  end
+
+  def generate_confirmation_token
+    signed_id expires_in: CONFIRMATION_TOKEN_EXPIRATION, purpose: :confirm_email
+  end
+
+  def unconfirmed?
+    !confirmed?
   end
 
   def role?(role)
