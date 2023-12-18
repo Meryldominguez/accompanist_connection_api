@@ -41,6 +41,19 @@ RSpec.describe 'Users', type: :request do
         expect(JSON(response.body)['message']).to eq('JWT token is invalid or expired')
       end
     end
+    context 'with an unconfirmed user' do
+      let!(:user) { create(:user, :unconfirmed) }
+      let!(:second_user) { create(:user) }
+      before do
+        get users_path, headers: create_auth_header(user)
+      end
+      it 'should return a 401 status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+      it 'should return an error' do
+        expect(JSON(response.body)['message']).to eq 'Please confirm your email before continuing'
+      end
+    end
   end
   describe 'GET #show' do
     context 'with authenticated user' do
@@ -162,8 +175,8 @@ RSpec.describe 'Users', type: :request do
           it 'should return a 401 status' do
             expect(response).to have_http_status(:unauthorized)
           end
-          it 'should have an empty body' do
-            expect(response.body).to eq ''
+          it 'should have an error message' do
+            expect(JSON(response.body)['message']).to eq 'You are not authorized to do this'
           end
           it 'should not edit a user' do
             expect(User.find(user_two.id).email).to_not eq @new_email
@@ -231,8 +244,8 @@ RSpec.describe 'Users', type: :request do
           it 'should return a 401 status' do
             expect(response).to have_http_status(:unauthorized)
           end
-          it 'should have an empty body' do
-            expect(response.body).to eq ''
+          it 'should have an error message' do
+            expect(JSON(response.body)['message']).to eq 'You are not authorized to do this'
           end
           it 'should not delete a user' do
             expect(User.count).to equal @user_count

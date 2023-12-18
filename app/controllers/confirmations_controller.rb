@@ -5,6 +5,7 @@ class ConfirmationsController < ApplicationController
 
   def resend
     @user = User.find_by(email: resend_params['email'])
+    authorize @user, policy_class: ConfirmationPolicy unless @user.nil?
     if @user.present? && @user.unconfirmed?
       @user.send_confirmation_email!
       render json: { message: 'Email with confirmation has been resent' }, status: :ok
@@ -16,6 +17,7 @@ class ConfirmationsController < ApplicationController
 
   def confirm
     @user = User.find_signed(confirm_params['confirmation_token'], purpose: :confirm_email)
+    authorize @user, policy_class: ConfirmationPolicy unless @user.nil?
     if @user.present? && @user.unconfirmed?
       @user.confirm!
       render json: { message: 'Your account has been confirmed' }, status: :ok

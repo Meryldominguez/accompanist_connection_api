@@ -15,8 +15,7 @@ Layout/LineContinuationSpacing: # new in 1.31
 Layout/LineEndStringConcatenationIndentation: # new in 1.18
   Enabled: true
 Layout/LineLength:
-  Exclude:
-  - 'spec/mailers/*.rb'
+  Enabled: false
 Layout/SpaceBeforeBrackets: # new in 1.7
   Enabled: true
 Lint/AmbiguousAssignment: # new in 1.7

@@ -6,4 +6,8 @@ module ControllerHelper
     { 'Authorization' => "Bearer #{JWT.encode({ user_id: user.id }, Rails.application.credentials.json_web_token_secret,
                                               encoding)}" }
   end
+
+  def find_mail_to(email)
+    ActionMailer::Base.deliveries.find { |mail| mail.to.include?(email) }
+  end
 end
