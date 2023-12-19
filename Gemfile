@@ -43,6 +43,9 @@ gem 'jsonapi-serializer', '~> 2.2'
 
 gem 'pundit', '~> 2.3'
 
+gem 'trestle', '~> 0.9.8'
+gem 'trestle-auth', '~> 0.4.4'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]

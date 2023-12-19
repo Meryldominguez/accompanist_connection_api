@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
-  CONFIRMATION_TOKEN_EXPIRATION = 10.minutes
+  include Rememberable
+  include Confirmable
+
   MAILER_FROM_EMAIL = 'no-reply@example.com'
 
   has_secure_password
@@ -17,29 +19,10 @@ class User < ApplicationRecord
                     format: { with: URI::MailTo::EMAIL_REGEXP, message: 'Email invalid' }
   before_save { email.downcase! }
 
+  scope :admins, -> { Role.admin.users }
+
   def full_name
     "#{first_name} #{last_name}"
-  end
-
-  def confirm!
-    update_columns(confirmed_at: Time.current)
-  end
-
-  def confirmed?
-    confirmed_at.present?
-  end
-
-  def generate_confirmation_token
-    signed_id expires_in: CONFIRMATION_TOKEN_EXPIRATION, purpose: :confirm_email
-  end
-
-  def unconfirmed?
-    !confirmed?
-  end
-
-  def send_confirmation_email!
-    confirmation_token = generate_confirmation_token
-    UserMailer.confirmation(self, confirmation_token).deliver_now
   end
 
   def role?(role)
