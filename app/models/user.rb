@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include Rememberable
+
   CONFIRMATION_TOKEN_EXPIRATION = 10.minutes
   MAILER_FROM_EMAIL = 'no-reply@example.com'
 
@@ -16,6 +18,8 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { minimum: 4, maximum: 50 }, uniqueness: { case_sensitive: false },
                     format: { with: URI::MailTo::EMAIL_REGEXP, message: 'Email invalid' }
   before_save { email.downcase! }
+
+  scope :admins, -> { Role.admin.users }
 
   def full_name
     "#{first_name} #{last_name}"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo "stashing unstaged changes"
-git stash --keep-index
+git stash push --keep-index -u
 echo "Running pre-commit hook"
 ./scripts/run-rubocop
 

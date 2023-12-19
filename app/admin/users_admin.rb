@@ -28,14 +28,17 @@ Trestle.resource(:users) do
 
   # Customize the form fields shown on the new/edit views.
   #
-  # form do |user|
-  #   text_field :name
-  #
-  #   row do
-  #     col { datetime_field :updated_at }
-  #     col { datetime_field :created_at }
-  #   end
-  # end
+  form do |_user|
+    text_field :email
+    row do
+      col { text_field :first_name }
+      col { text_field :last_name }
+    end
+    row do
+      col { password_field :password }
+      col { password_field :password_confirmation }
+    end
+  end
 
   # By default, all parameters passed to the update and create actions will be
   # permitted. If you do not have full trust in your users, you should explicitly
@@ -44,7 +47,7 @@ Trestle.resource(:users) do
   # For further information, see the Rails documentation on Strong Parameters:
   #   http://guides.rubyonrails.org/action_controller_overview.html#strong-parameters
   #
-  # params do |params|
-  #   params.require(:user).permit(:name, ...)
-  # end
+  params do |params|
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+  end
 end
