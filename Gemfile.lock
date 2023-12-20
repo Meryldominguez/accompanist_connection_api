@@ -227,6 +227,9 @@ GEM
     rspec-mocks (3.12.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
+    rspec-openapi (0.10.0)
+      actionpack (>= 5.2.0)
+      rspec-core
     rspec-rails (6.1.0)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
@@ -236,6 +239,9 @@ GEM
       rspec-mocks (~> 3.12)
       rspec-support (~> 3.12)
     rspec-support (3.12.1)
+    rswag-ui (2.13.0)
+      actionpack (>= 3.1, < 7.2)
+      railties (>= 3.1, < 7.2)
     rubocop (1.59.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -303,7 +309,9 @@ DEPENDENCIES
   pundit (~> 2.3)
   rack-cors
   rails (~> 7.1.2)
+  rspec-openapi
   rspec-rails (~> 6.1.0)
+  rswag-ui
   rubocop (~> 1.59)
   simplecov (~> 0.22.0)
   timecop (~> 0.9.8)
