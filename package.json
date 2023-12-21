@@ -5,6 +5,8 @@
     "build": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds"
   },
   "dependencies": {
-    "esbuild": "^0.19.10"
+    "esbuild": "^0.19.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::Base
+class ApplicationController < ActionController::API
   include Pundit::Authorization
 
   before_action :authorized
@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :handle_unauthorized
 
   def encode_token(payload)
-    JWT.encode(payload, Rails.application.credentials.json_web_token_secret)
+    JWT.encode(payload, Rails.application.credentials[Rails.env].json_web_token_secret)
   end
 
   def decoded_token
@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
     return unless header
 
     token = header.split[1]
-    JWT.decode(token, Rails.application.credentials.json_web_token_secret, true, algorithm: 'HS256')
+    JWT.decode(token, Rails.application.credentials[Rails.env].json_web_token_secret, true, algorithm: 'HS256')
   end
 
   def current_user
