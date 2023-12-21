@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class InstrumentsController < ApplicationController
+class InstrumentsController < ApiController
   before_action :set_instrument, only: %i[show update destroy]
 
   # GET /instruments

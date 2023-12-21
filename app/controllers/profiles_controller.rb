@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ProfilesController < ApplicationController
+class ProfilesController < ApiController
   before_action :set_profile, only: %i[show update destroy]
 
   # GET /profiles

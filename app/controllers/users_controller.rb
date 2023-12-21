@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UsersController < ApplicationController
+class UsersController < ApiController
   rescue_from ActiveRecord::RecordInvalid, with: :handle_invalid_record
 
   skip_before_action :authorized, :user_confirmed, only: [:create]

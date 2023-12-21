@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class UserRolesController < ApplicationController
+class UserRolesController < ApiController
   before_action :set_user_role, only: %i[show update destroy]
 
   # GET /user_roles

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ConfirmationsController < ApplicationController
+class ConfirmationsController < ApiController
   skip_before_action :user_confirmed, only: %i[resend confirm]
 
   def resend

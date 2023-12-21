@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AuthController < ApplicationController
+class AuthController < ApiController
   skip_before_action :authorized, only: [:login]
   skip_before_action :user_confirmed, only: [:login]
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
