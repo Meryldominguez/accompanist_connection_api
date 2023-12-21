@@ -1,15 +1,25 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import {
+    createBrowserRouter,
+    RouterProvider,
+  } from "react-router-dom";
 
-interface AppProps {
-  arg: string;
-}
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <div>Hello world!</div>,
+      errorElement: <div>OH NO!</div>
+    },
+    // {
+    //     path: "*",
+    //     element: <div>OH NO!</div>
+    // },
+  ]);
 
-const App = ({ arg }: AppProps) => {
-  return <div>{`Hello, ${arg}!`}</div>;
-};
-
-document.addEventListener("DOMContentLoaded", () => {
-  const rootEl = document.getElementById("root");
-  ReactDOM.render(<App arg="Rails 7 with ESBuild" />, rootEl);
-});
+ReactDOM.render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
