@@ -1,13 +1,18 @@
 # frozen_string_literal: true
 
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   before_action :authorized
   before_action :user_confirmed
 
+  skip_before_action :authorized, only: [:index]
+  skip_before_action :user_confirmed, only: [:index]
+
   rescue_from JWT::DecodeError, with: :handle_jwt_invalid
   rescue_from Pundit::NotAuthorizedError, with: :handle_unauthorized
+
+  def index; end
 
   def encode_token(payload)
     JWT.encode(payload, Rails.application.credentials[Rails.env].json_web_token_secret)

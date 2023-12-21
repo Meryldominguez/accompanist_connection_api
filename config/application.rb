@@ -33,6 +33,7 @@ module AccompanistConnectionApi
 
     config.generators do |g|
       g.fixture_replacement :factory_bot, suffix_factory: 'factory'
+      g.test_framework :rspec
     end
   end
 end
