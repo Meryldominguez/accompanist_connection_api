@@ -1,24 +1,19 @@
-import { Container } from '@mui/material'
+import React from 'react'
 import AppBar from '@mui/material/AppBar'
-import useTheme from '@mui/material/styles/useTheme'
+import Container from '@mui/material/Container'
 
 const Footer = () => {
-  const theme = useTheme()
-  console.log(theme)
   return (
     <AppBar
-    position='static'
+      position="static"
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        minHeight:4,
-        bottom:0
+        minHeight: 4,
+        bottom: 0,
       }}
-      component="footer"
-    >
-      <Container maxWidth="xl">
-        
-      </Container>
+      component="footer">
+      <Container maxWidth="xl"></Container>
     </AppBar>
   )
 }

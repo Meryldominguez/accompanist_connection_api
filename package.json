@@ -3,8 +3,8 @@
   "private": "true",
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds",
-    "lint": "yarn prettier -l ./app",
-    "start": "yarn build --watchyarn build --watch"
+    "lint": "yarn prettier -w ./app",
+    "start": "yarn build --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

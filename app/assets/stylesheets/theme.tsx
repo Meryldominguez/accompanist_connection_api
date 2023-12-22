@@ -11,7 +11,7 @@ const COLORS = {
   secondary: {
     main: '#b287a3',
     light: '#c19fb5',
-    dark: '#7c5e72'
+    dark: '#7c5e72',
   },
   info: {
     main: '#1e88e5',
@@ -27,46 +27,45 @@ const COLORS = {
     main: '#ea0000',
     light: '#ee3333',
     dark: '#a30000',
-  }
+  },
 }
 
 export const theme = createTheme({
   palette: {
     common: {
       white: COLORS.white,
-      black: COLORS.black
+      black: COLORS.black,
     },
     primary: {
       main: COLORS.primary.main,
       light: COLORS.primary.light,
       dark: COLORS.primary.dark,
-      contrastText: COLORS.white
+      contrastText: COLORS.white,
     },
     secondary: {
       main: COLORS.secondary.main,
       light: COLORS.secondary.light,
       dark: COLORS.secondary.dark,
-      contrastText: COLORS.white
+      contrastText: COLORS.white,
     },
     info: {
       main: COLORS.info.main,
       light: COLORS.info.light,
       dark: COLORS.info.dark,
-      contrastText: COLORS.white
-
+      contrastText: COLORS.white,
     },
     success: {
       main: COLORS.success.main,
       light: COLORS.success.light,
       dark: COLORS.success.dark,
-      contrastText: COLORS.white
+      contrastText: COLORS.white,
     },
     error: {
       main: COLORS.error.main,
       light: COLORS.error.light,
       dark: COLORS.error.dark,
-      contrastText: COLORS.white
-    }
+      contrastText: COLORS.white,
+    },
   },
   components: {
     MuiAppBar: {
@@ -74,10 +73,10 @@ export const theme = createTheme({
         root: ({ ownerState }) => ({
           ...(ownerState.component === 'footer' && {
             backgroundColor: COLORS.secondary.main,
-            color: COLORS.white
-          })
-        })
-      }
-    }
-  }
+            color: COLORS.white,
+          }),
+        }),
+      },
+    },
+  },
 })

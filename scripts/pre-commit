@@ -12,5 +12,16 @@ else
  echo "Adding rubocop changes to your commit"
  git add -u
 fi
+
+./scripts/run-prettier
+# $? stores exit value of the last command
+if [ $? -ne 0 ]; then
+ echo "Code must be clean before commiting. Run pretier for linting."
+ exit 1
+else
+ echo "Adding prettier changes to your commit"
+ git add -u
+fi
+
 echo "unstashing changes..."
 git stash pop

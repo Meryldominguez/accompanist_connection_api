@@ -28,14 +28,14 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'login',
-        Component: () => <h1>Login Index</h1>
-      }
-    ]
+        Component: () => <h1>Login Index</h1>,
+      },
+    ],
   },
   {
     path: '*',
-    Component: () => <h1>Error!</h1>
-  }
+    Component: () => <h1>Error!</h1>,
+  },
   // {
   //     path: "*",
   //     element: <div>OH NO!</div>

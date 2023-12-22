@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
@@ -55,9 +55,8 @@ const Header = ({ currentUser }: HeaderProps) => {
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
+              textDecoration: 'none',
+            }}>
             ACC CON
           </Typography>
 
@@ -68,8 +67,7 @@ const Header = ({ currentUser }: HeaderProps) => {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
-            >
+              color="inherit">
               <MenuIcon />
             </IconButton>
             <Menu
@@ -77,20 +75,19 @@ const Header = ({ currentUser }: HeaderProps) => {
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left'
+                horizontal: 'left',
               }}
               keepMounted
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'left'
+                horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              {pages.map(page => (
+                display: { xs: 'block', md: 'none' },
+              }}>
+              {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
@@ -111,13 +108,12 @@ const Header = ({ currentUser }: HeaderProps) => {
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
+              textDecoration: 'none',
+            }}>
             ACC CON
           </Typography>
           <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(page => (
+            {pages.map((page) => (
               <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
                 {page}
               </Button>
@@ -136,17 +132,16 @@ const Header = ({ currentUser }: HeaderProps) => {
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: 'top',
-                  horizontal: 'right'
+                  horizontal: 'right',
                 }}
                 keepMounted
                 transformOrigin={{
                   vertical: 'top',
-                  horizontal: 'right'
+                  horizontal: 'right',
                 }}
                 open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map(setting => (
+                onClose={handleCloseUserMenu}>
+                {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
@@ -158,24 +153,21 @@ const Header = ({ currentUser }: HeaderProps) => {
               sx={{
                 paddingLeft: 3,
                 display: { xs: 'none', sm: 'flex' },
-                justifyContent: 'space-around'
-              }}
-            >
+                justifyContent: 'space-around',
+              }}>
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, mx: 1, display: 'block' }}
                 color="secondary"
                 variant="contained"
-                size="large"
-              >
+                size="large">
                 LOGIN
               </Button>
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, mx: 1, display: 'block', backgroundColor: 'white' }}
                 variant="outlined"
-                size="large"
-              >
+                size="large">
                 SIGN UP
               </Button>
             </Box>

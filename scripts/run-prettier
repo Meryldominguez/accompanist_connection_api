@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+
+set -e
+
+cd "${0%/*}/.."
+
+echo "Running prettier"
+yarn run lint
