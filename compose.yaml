@@ -12,8 +12,8 @@ services:
 
   database:
     image: postgres:latest
-    volumes: 
-     - database:/data/db
+    volumes:
+      - database:/data/db
     ports:
       - 5432:5432
     environment:

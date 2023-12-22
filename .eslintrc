@@ -3,10 +3,7 @@
   "plugins": ["@typescript-eslint"],
   "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "parserOptions": { "ecmaVersion": 2018, "sourceType": "module" },
-  "ignorePatterns": [ 
-    "coverage/*",
-    "app/assets/builds/*"
-  ],
+  "ignorePatterns": ["coverage/*", "app/assets/builds/*"],
   "rules": {
     "no-unused-vars": 1
   }
