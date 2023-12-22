@@ -3,11 +3,13 @@
   "private": "true",
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --outdir=app/assets/builds",
-    "lint": "yarn prettier -l ./app"
+    "lint": "yarn prettier -l ./app",
+    "start": "yarn build --watchyarn build --watch"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.1",
     "@mui/material": "^5.15.1",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
@@ -16,7 +18,6 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.0",
     "typescript": "^5.3.3"
-
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.15.0",
