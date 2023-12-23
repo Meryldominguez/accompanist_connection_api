@@ -1,6 +1,8 @@
 import React from 'react'
 import AppBar from '@mui/material/AppBar'
-import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
+import SignupLoginButtonGroup from './SignupLoginButtonGroup'
+import { Typography } from '@mui/material'
 
 const Footer = () => {
   return (
@@ -13,7 +15,24 @@ const Footer = () => {
         bottom: 0,
       }}
       component="footer">
-      <Container maxWidth="xl"></Container>
+      <Grid container justifyContent="space-around" sx={{ flexGrow: 1 }}>
+        <Grid item>
+          <Grid container flexDirection="column" alignItems="center">
+            <Grid item>
+              <Typography>Hello</Typography>
+            </Grid>
+            <Grid item>
+              <SignupLoginButtonGroup baseColor="secondary" />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <SignupLoginButtonGroup baseColor="secondary" />
+        </Grid>
+        <Grid item>
+          <SignupLoginButtonGroup baseColor="secondary" />
+        </Grid>
+      </Grid>
     </AppBar>
   )
 }

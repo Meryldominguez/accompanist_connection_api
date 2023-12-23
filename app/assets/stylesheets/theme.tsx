@@ -78,5 +78,20 @@ export const theme = createTheme({
         }),
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          ...(ownerState.variant === 'outlined' && {
+            backgroundColor: COLORS.white,
+            border: `2px solid ${COLORS.primary.main + '38'}`,
+            '&:hover': {
+              backgroundColor: ownerState.color,
+              color: COLORS.white,
+              border: `2px solid ${COLORS.white}`,
+            },
+          }),
+        }),
+      },
+    },
   },
 })

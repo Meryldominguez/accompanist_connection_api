@@ -1,11 +1,11 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
-import Header from './header'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import { theme } from '../../assets/stylesheets/theme'
 import { Box } from '@mui/material'
-import Footer from './footer'
+import Header from './Header'
+import Footer from './Footer'
 
 //   TODO: See if theres a user in the token, if so, pass it into the app
 

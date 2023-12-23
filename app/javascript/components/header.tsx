@@ -12,6 +12,7 @@ import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import GraphicEqIcon from '@mui/icons-material/GraphicEq'
+import SignupLoginButtonGroup from './SignupLoginButtonGroup'
 
 type HeaderProps = {
   currentUser?: object
@@ -149,28 +150,7 @@ const Header = ({ currentUser }: HeaderProps) => {
               </Menu>
             </Box>
           ) : (
-            <Box
-              sx={{
-                paddingLeft: 3,
-                display: { xs: 'none', sm: 'flex' },
-                justifyContent: 'space-around',
-              }}>
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, mx: 1, display: 'block' }}
-                color="secondary"
-                variant="contained"
-                size="large">
-                LOGIN
-              </Button>
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, mx: 1, display: 'block', backgroundColor: 'white' }}
-                variant="outlined"
-                size="large">
-                SIGN UP
-              </Button>
-            </Box>
+            <SignupLoginButtonGroup />
           )}
         </Toolbar>
       </Container>
