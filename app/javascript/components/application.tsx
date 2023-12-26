@@ -1,22 +1,28 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom'
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
-import ThemeProvider from '@mui/material/styles/ThemeProvider'
-import { theme } from '../../assets/stylesheets/theme'
-import { Box } from '@mui/material'
-import Header from './Header'
-import Footer from './Footer'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import React from 'react'
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-//   TODO: See if theres a user in the token, if so, pass it into the app
+import { Box } from '@mui/material'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
+import ReactDOM from 'react-dom'
+import { theme } from '../../assets/stylesheets/theme'
+import { CurrentUserContextProvider } from '../providers/CurrentUserProvider'
+import Footer from './Footer'
+import Header from './Header'
+
+const queryClient = new QueryClient()
 
 const Root = () => {
   return (
     <>
-      <Header />
-      <Box className="appBody" minHeight={window.innerHeight - 100} margin={2}>
-        <Outlet />
-      </Box>
-      <Footer />
+      <CurrentUserContextProvider>
+        <Header />
+        <Box className="appBody" minHeight={window.innerHeight - 400} margin={2}>
+          <Outlet />
+        </Box>
+        <Footer />
+      </CurrentUserContextProvider>
     </>
   )
 }
@@ -44,9 +50,13 @@ const router = createBrowserRouter([
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <ReactQueryDevtools initialIsOpen={false} />
+
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     post '/', to: 'confirmations#confirm', as: 'confirm', param: :confirmation_token
   end
   scope '/auth' do
+    post '/current_user', to: 'auth#index', as: 'current_user'
     post '/login', to: 'auth#login', as: 'login'
   end
 

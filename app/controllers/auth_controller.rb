@@ -1,10 +1,21 @@
 # frozen_string_literal: true
 
 class AuthController < ApiController
-  skip_before_action :authorized, only: [:login]
-  skip_before_action :user_confirmed, only: [:login]
+  skip_before_action :authorized, only: %i[login index]
+  skip_before_action :user_confirmed, only: %i[login index]
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
   rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
+
+  def index
+    token = index_params[:token]
+    decoded_token = JWT.decode(token, Rails.application.credentials[Rails.env].json_web_token_secret, true, algorithm: 'HS256')
+    @current_user = User.find(decoded_token[0]['user_id'])
+    raise JWT::DecodeError unless @current_user
+
+    render json: {
+      user: UserSerializer.new(@current_user)
+    }, status: :accepted
+  end
 
   def login
     @user = User.find_by!(email: login_params[:email])
@@ -25,6 +36,12 @@ class AuthController < ApiController
     params.require(:auth).permit(:password, :email).tap do |p|
       p.require(:password)
       p.require(:email)
+    end
+  end
+
+  def index_params
+    params.require(:auth).permit(:token).tap do |p|
+      p.require(:token)
     end
   end
 
