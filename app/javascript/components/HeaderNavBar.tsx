@@ -19,6 +19,9 @@ const pages = ['Products', 'Pricing', 'Blog']
 const settings = ['Profile', 'Account', 'Logout']
 
 const Header = () => {
+  // ADD dropdown drawer for menu when xs
+  // https://mui.com/material-ui/react-drawer/
+
   const currentUser = useCurrentUserContext()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)

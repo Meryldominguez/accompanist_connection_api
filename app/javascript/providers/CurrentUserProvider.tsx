@@ -10,7 +10,8 @@ export const useCurrentUserContext = () => {
 export const CurrentUserContextProvider = ({ children }: { children: React.ReactNode }) => {
   const currentUserQuery = useCurrentUser()
 
-  if (currentUserQuery.error) {
+  if (currentUserQuery.status == 'error') {
+    console.log('token error')
     localStorage.removeItem('token')
   }
 

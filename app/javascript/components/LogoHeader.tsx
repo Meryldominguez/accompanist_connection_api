@@ -1,6 +1,7 @@
 import GraphicEqIcon from '@mui/icons-material/GraphicEq'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
+import { useNavigate } from 'react-router-dom'
 import { BreakPointsProps } from './types/stylingTypes'
 
 type LogoHeaderProps = {
@@ -9,13 +10,19 @@ type LogoHeaderProps = {
 }
 
 const LogoHeader = ({ display = { xs: 'none', md: 'flex' }, size = 40 }: LogoHeaderProps) => {
+  const navigate = useNavigate()
+
+  function handleClick() {
+    navigate('/')
+  }
+
   return (
     <Grid
       container
+      onClick={handleClick}
       flexDirection="row"
       flexWrap="nowrap"
       alignItems="center"
-      href="#app-bar-with-responsive-menu"
       component="a"
       spacing={1}
       marginTop={0}
