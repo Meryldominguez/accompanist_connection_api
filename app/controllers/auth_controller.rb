@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 class AuthController < ApiController
-  skip_before_action :authorized, only: %i[login index]
+  skip_before_action :authorized, only: %i[login]
   skip_before_action :user_confirmed, only: %i[login index]
   rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
   rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
 
   def index
-    token = index_params[:token]
-    decoded_token = JWT.decode(token, Rails.application.credentials[Rails.env].json_web_token_secret, true, algorithm: 'HS256')
     @current_user = User.find(decoded_token[0]['user_id'])
     raise JWT::DecodeError unless @current_user
 
@@ -50,6 +48,6 @@ class AuthController < ApiController
   end
 
   def handle_parameter_missing(err)
-    render json: { message: 'Please send both email and password', error: err }, status: :bad_request
+    render json: { message: "Missing Parameter", error: err }, status: :bad_request
   end
 end

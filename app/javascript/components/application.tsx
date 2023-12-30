@@ -11,13 +11,16 @@ import { generateRoutes } from '../routing'
 const queryClient = new QueryClient()
 
 const App = () => {
-  const currentUser = useCurrentUserContext()
+  const user = useCurrentUserContext()
 
-  const routes = [...generateRoutes(Boolean(currentUser))]
-  console.log(routes)
-  const router = createBrowserRouter(routes)
+
+  if(!user.isFetching){
+    const routes = [...generateRoutes(user.isSuccess)]
+
+    const router = createBrowserRouter(routes)
 
   return <RouterProvider router={router} />
+  }
 }
 
 ReactDOM.render(

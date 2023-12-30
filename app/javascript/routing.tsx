@@ -29,22 +29,15 @@ const publicRoutes: Routes = [
   },
 ]
 
-const generateRoutes = (isAuth: boolean) => {
-  const routes = [...publicRoutes]
-
-  if (isAuth) {
-    routes[0].children = [...(routes[0].children as Route[]), ...authRoutes]
-  }
-  return [
-    {
-      element: <Root />,
-      children: isAuth ? [...authRoutes, ...publicRoutes] : [...loginRoutes, ...publicRoutes],
-    },
-    {
-      path: '*',
-      Component: () => <Navigate to={isAuth ? '/' : '/login'} replace />,
-    },
-  ]
-}
+const generateRoutes = (isAuth: boolean) => [
+  {
+    element: <Root />,
+    children: isAuth ? [...authRoutes, ...publicRoutes] : [...loginRoutes, ...publicRoutes],
+  },
+  {
+    path: '*',
+    Component: () => <Navigate to={isAuth ? '/' : '/login'} replace />,
+  },
+]
 
 export { generateRoutes }
