@@ -11,7 +11,7 @@ class AuthController < ApiController
     raise JWT::DecodeError unless @current_user
 
     render json: {
-      user: UserSerializer.new(@current_user)
+      user: @current_user
     }, status: :accepted
   end
 
@@ -20,7 +20,7 @@ class AuthController < ApiController
     if @user.authenticate(login_params[:password])
       @token = encode_token(user_id: @user.id)
       render json: {
-        user: UserSerializer.new(@user),
+        user: @user,
         token: @token
       }, status: :accepted
     else

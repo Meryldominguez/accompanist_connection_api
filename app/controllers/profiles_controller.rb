@@ -2,6 +2,7 @@
 
 class ProfilesController < ApiController
   before_action :set_profile, only: %i[show update destroy]
+  before_action :set_options, only: %i[show]
 
   # GET /profiles
   def index
@@ -41,6 +42,12 @@ class ProfilesController < ApiController
   end
 
   private
+
+  def set_options
+    @options = {}
+    @options[:include] = params[:include].map(&:to_sym) unless params[:include].nil?
+    p(@options)
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_profile

@@ -9,12 +9,12 @@ class UsersController < ApiController
   # GET /users
   def index
     @users = User.all
-    render json: UserSerializer.new(@users).serializable_hash.to_json, status: :ok
+    render json: @users, status: :ok
   end
 
   # GET /users/1
   def show
-    render json: UserSerializer.new(@user)
+    render json: @user
   end
 
   # POST /users
@@ -23,7 +23,7 @@ class UsersController < ApiController
     user.send_confirmation_email!
     @token = encode_token(user_id: user.id)
     render json: {
-      user: UserSerializer.new(user),
+      user:,
       token: @token
     }, status: :created
   end
@@ -32,7 +32,7 @@ class UsersController < ApiController
   def update
     authorize @user
     @user.update!(user_params)
-    render json: UserSerializer.new(@user)
+    render json: @user
   end
 
   # DELETE /users/1
