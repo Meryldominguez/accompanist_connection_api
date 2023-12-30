@@ -4,24 +4,23 @@ module Authenticatable
   extend ActiveSupport::Concern
 
   included do
-    def get_token
+    def header_token
       header = request.headers['Authorization']
       return unless header
+
       header.split[1]
     end
-    
+
     def encode_token(payload)
       JWT.encode(payload, Rails.application.credentials[Rails.env].json_web_token_secret)
     end
 
     def decoded_token
-      
-      token = get_token
+      token = header_token
       JWT.decode(token, Rails.application.credentials[Rails.env].json_web_token_secret, true, algorithm: 'HS256')
     end
 
     def current_user
-      p("in current)user")
       return unless request.headers['Authorization']
 
       user_id = decoded_token[0]['user_id']
@@ -29,7 +28,6 @@ module Authenticatable
     end
 
     def authorized
-      p("in authorized")
       return unless current_user.nil?
 
       render json: { message: 'Please log in' }, status: :unauthorized

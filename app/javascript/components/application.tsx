@@ -13,13 +13,12 @@ const queryClient = new QueryClient()
 const App = () => {
   const user = useCurrentUserContext()
 
-
-  if(!user.isFetching){
+  if (!user.isFetching) {
     const routes = [...generateRoutes(user.isSuccess)]
 
     const router = createBrowserRouter(routes)
 
-  return <RouterProvider router={router} />
+    return <RouterProvider router={router} />
   }
 }
 

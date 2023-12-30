@@ -22,7 +22,8 @@ const Header = () => {
   // ADD dropdown drawer for menu when xs
   // https://mui.com/material-ui/react-drawer/
 
-  const currentUser = useCurrentUserContext()
+  const { data: currentUser } = useCurrentUserContext()
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
 
@@ -93,7 +94,7 @@ const Header = () => {
             <Box sx={{ flexGrow: 0, paddingLeft: 3 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt={currentUser.full_name} src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu

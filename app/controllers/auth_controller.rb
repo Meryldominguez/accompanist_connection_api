@@ -48,6 +48,6 @@ class AuthController < ApiController
   end
 
   def handle_parameter_missing(err)
-    render json: { message: "Missing Parameter", error: err }, status: :bad_request
+    render json: { message: 'Missing Parameter', error: err }, status: :bad_request
   end
 end

@@ -1,17 +1,16 @@
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import useFetch from './useFetch'
 
-export const fetchCurrentUser = (token: string) =>
-  axios.post(`/auth/current_user`, { token: token }).then((res) => res.data)
+export const fetchCurrentUser = () => useFetch('POST', '/auth/current_user')
 
-export default function useCurrentUser() {
+export const useCurrentUser = () => {
   const token = localStorage.getItem('token')
-  if (token) {
-    return useQuery({
-      queryKey: ['user', token],
-      queryFn: () => fetchCurrentUser(token),
-      select: (data) => data.user.data.attributes,
-    })
-  }
-  return { data: null, status: null, error: 'No Token' }
+
+  return useQuery({
+    queryKey: ['user', token],
+    queryFn: fetchCurrentUser,
+    select: (data) => data.user.data.attributes,
+    enabled: !!token,
+    retry: 1,
+  })
 }
