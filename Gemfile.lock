@@ -117,6 +117,11 @@ GEM
       i18n (>= 1.8.11, < 2)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    graphiql-rails (1.9.0)
+      railties
+      sprockets-rails
+    graphql (2.2.3)
+      racc (~> 1.4)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -330,6 +335,8 @@ DEPENDENCIES
   esbuild-rails (~> 0.1.4)
   factory_bot_rails (~> 6.4.2)
   faker
+  graphiql-rails
+  graphql (~> 2.2)
   jb
   jsbundling-rails
   jwt (~> 2.5)

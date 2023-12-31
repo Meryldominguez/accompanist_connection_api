@@ -58,6 +58,8 @@ gem 'trestle-auth', '~> 0.4.4'
 
 gem 'esbuild-rails', '~> 0.1.4'
 
+gem 'graphql', '~> 2.2'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
@@ -84,6 +86,8 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'graphiql-rails'
   gem 'letter_opener', '~> 1.4'
   gem 'rubocop', '~> 1.59', require: false
 end
+
