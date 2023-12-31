@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+@users.map do |user|
+  render partial: 'users/user', locals: { user: }
+end

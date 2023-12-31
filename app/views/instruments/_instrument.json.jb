@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+{
+  id: instrument.id,
+  name: instrument.name,
+  profile_count: instrument.profiles.count
+  # created_at: instrument.created_at,
+  # updated_at: instrument.updated_at,
+}

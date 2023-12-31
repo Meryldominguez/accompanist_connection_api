@@ -6,13 +6,11 @@ class InstrumentsController < ApiController
   # GET /instruments
   def index
     @instruments = Instrument.all
-
-    render json: @instruments
   end
 
   # GET /instruments/1
   def show
-    render json: @instrument
+    render 'show', locals: { instrument: @instrument }
   end
 
   # POST /instruments

@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+@instruments.map do |instrument|
+  render partial: 'instruments/instrument', locals: { instrument: }
+end

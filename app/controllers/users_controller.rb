@@ -9,12 +9,11 @@ class UsersController < ApiController
   # GET /users
   def index
     @users = User.all
-    render json: @users, status: :ok
   end
 
   # GET /users/1
   def show
-    render json: @user
+    render 'show', locals: { user: @user }
   end
 
   # POST /users

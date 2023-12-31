@@ -1,0 +1,8 @@
+# frozen_string_literal: true
+
+@profiles.map do |profile|
+  json = render partial: 'profiles/profile', locals: { profile: }
+  json[:user] = render partial: 'users/user', locals: { user: profile.user }
+  json[:instrument] = render partial: 'instruments/instrument', locals: { instrument: profile.instrument }
+  json
+end

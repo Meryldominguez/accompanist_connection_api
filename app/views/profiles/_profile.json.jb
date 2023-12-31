@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+{
+  id: profile.id
+  # created_at: profile.created_at,
+  # updated_at: profile.updated_at,
+}

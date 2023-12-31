@@ -2,8 +2,8 @@
 
 Rails.application.routes.draw do
   scope '/api' do
-    resources :profiles, only: []
-    resources :instruments, only: []
+    resources :profiles, only: %i[index show]
+    resources :instruments, only: %i[index show]
     resources :users, only: %i[index show destroy create update]
     resources :user_roles, only: []
     resources :roles, only: []

@@ -7,13 +7,11 @@ class ProfilesController < ApiController
   # GET /profiles
   def index
     @profiles = Profile.all
-
-    render json: @profiles
   end
 
   # GET /profiles/1
   def show
-    render json: @profile
+    render 'show', locals: { profile: @profile }
   end
 
   # POST /profiles

@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+{
+  id: user.id,
+  name: user.full_name,
+  first_name: user.first_name,
+  last_name: user.last_name,
+  admin: user.admin?,
+  email: user.email,
+  confirmed: user.confirmed?,
+  profile_count: user.profiles.count
+  # created_at: user.created_at,
+  # updated_at: user.updated_at,
+}
