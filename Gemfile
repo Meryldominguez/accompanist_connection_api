@@ -90,4 +90,3 @@ group :development do
   gem 'letter_opener', '~> 1.4'
   gem 'rubocop', '~> 1.59', require: false
 end
-

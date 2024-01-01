@@ -22,23 +22,55 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    field :users, [Types::UserType], null: false,
-                                     description: 'An example field added by the generator'
+    field :users, [Types::UserType], null: true do
+      description 'find all Users'
+    end
+
+    field :user, [Types::UserType], null: true do
+      description 'find User by id'
+      argument :id, ID, required: true
+    end
 
     def users
       User.all
     end
 
-    field :profiles, [Types::ProfileType], null: false
+    def user(id:)
+      User.find(id)
+    end
+
+    field :profiles, [Types::ProfileType], null: true do
+      description 'find all Profiles'
+    end
+
+    field :profile, [Types::ProfileType], null: true do
+      description 'find Profile by id'
+      argument :id, ID, required: true
+    end
 
     def profiles
       Profile.all
     end
 
-    field :instruments, [Types::InstrumentType], null: false
+    def profile(id:)
+      Profile.find(id)
+    end
+
+    field :instruments, [Types::InstrumentType], null: true do
+      description 'find all Instruments'
+    end
+
+    field :instrument, [Types::InstrumentType], null: true do
+      description 'find Instrument by id'
+      argument :id, ID, required: true
+    end
 
     def instruments
       Instrument.all
+    end
+
+    def instrument(id:)
+      Instrument.find(id)
     end
   end
 end
