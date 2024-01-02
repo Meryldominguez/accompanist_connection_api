@@ -122,6 +122,10 @@ GEM
       sprockets-rails
     graphql (2.2.3)
       racc (~> 1.4)
+    graphql-schema_comparator (1.2.1)
+      bundler (>= 1.14)
+      graphql (>= 1.10, < 3.0)
+      thor (>= 0.19, < 2.0)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -337,6 +341,7 @@ DEPENDENCIES
   faker
   graphiql-rails
   graphql (~> 2.2)
+  graphql-schema_comparator
   jb
   jsbundling-rails
   jwt (~> 2.5)

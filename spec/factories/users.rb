@@ -6,6 +6,7 @@ FactoryBot.define do
     last_name  { Faker::Name.last_name }
     email { Faker::Internet.email }
     roles { [] }
+    password { Faker::Internet.password }
     password_digest { Faker::Internet.password }
     confirmed_at { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now) }
 
