@@ -9,19 +9,26 @@ module Mutations
     # return type from the mutation
     type Types::ProfileType
 
-    def resolve(user: nil, instrument: nil)
-      @user = if user.id
-                User.find(user.id)
-              elsif user.email
-                User.find_by(email: user.email)
-              end
-      @instrument = if instrument.id
-                      Instrument.find(instrument.id)
-                    elsif instrument.name
-                      Instrument.find_by(name: instrument.name)
-                    end
+    def find_user(user)
+      if user.id
+        User.find(user.id)
+      elsif user.email
+        User.find_by(email: user.email)
+      end
+    end
 
-      # @instrument = Instrument.create!(name: instrument.name) unless instrument.name && @instrument
+    def find_instrument(instrument)
+      if instrument.id
+        Instrument.find(instrument.id)
+      elsif instrument.name
+        Instrument.find_by(name: instrument.name)
+      end
+    end
+
+    def resolve(user: nil, instrument: nil)
+      @user = find_user(user)
+      @instrument = find_instrument(instrument)
+      @instrument = Instrument.create!(name: instrument.name.titleize) if !@instrument && instrument.name
 
       Profile.create!(
         instrument: @instrument,
