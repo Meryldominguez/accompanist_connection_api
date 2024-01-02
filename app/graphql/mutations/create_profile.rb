@@ -3,20 +3,29 @@
 module Mutations
   class CreateProfile < BaseMutation
     # arguments passed to the `resolve` method
-    argument :first_name, String, required: true
-    argument :last_name, String, required: true
-    argument :email, String, required: true
-    argument :password, String, required: true
+    argument :user, Types::Inputs::FindUserInputType, required: true
+    argument :instrument, Types::Inputs::FindInstrumentInputType, required: true
 
     # return type from the mutation
-    type Types::UserType
+    type Types::ProfileType
 
-    def resolve(first_name: nil, last_name: nil, email: nil, password: nil)
-      User.create!(
-        first_name:,
-        last_name:,
-        email:,
-        password:
+    def resolve(user: nil, instrument: nil)
+      @user = if user.id
+                User.find(user.id)
+              elsif user.email
+                User.find_by(email: user.email)
+              end
+      @instrument = if instrument.id
+                      Instrument.find(instrument.id)
+                    elsif instrument.name
+                      Instrument.find_by(name: instrument.name)
+                    end
+
+      # @instrument = Instrument.create!(name: instrument.name) unless instrument.name && @instrument
+
+      Profile.create!(
+        instrument: @instrument,
+        user: @user
       )
     end
   end
