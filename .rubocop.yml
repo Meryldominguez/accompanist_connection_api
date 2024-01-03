@@ -92,6 +92,8 @@ Metrics/CollectionLiteralLength: # new in 1.47
   Enabled: true
 Metrics/MethodLength:
   Max: 20
+Metrics/ModuleLength:
+  Enabled: false
 Naming/BlockForwarding: # new in 1.24
   Enabled: true
 Security/CompoundHash: # new in 1.28

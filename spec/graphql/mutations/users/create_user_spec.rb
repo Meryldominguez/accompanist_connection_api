@@ -22,15 +22,15 @@ module Mutations
 
           expect(User.count).to be 0
           expect do
-              execute_graphql(mutation, variables: { input:input })
+            execute_graphql(mutation, variables: { input: })
           end.to change { User.count }.by(1)
         end
 
         it 'returns a User' do
           user = build(:user)
           input = { firstName: user.first_name, lastName: user.last_name, email: user.email, password: user.password }
-          response = execute_graphql(mutation, variables: { input:input })
- 
+          response = execute_graphql(mutation, variables: { input: })
+
           data = response['data']['createUser']
 
           expect(data).to include(
