@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :instruments, through: :profiles
   has_many :user_roles, dependent: :destroy
   has_many :roles, through: :user_roles
-  has_many :rollouts, as: :resource
+  has_many :rollout_overrides, as: :resource
 
   validates :first_name, presence: true
   validates :last_name, presence: true

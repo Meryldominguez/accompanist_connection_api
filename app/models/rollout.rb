@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Rollout < ApplicationRecord
-  before_create :set_offset
+  has_many :overrides, class_name: 'RolloutOverride'
   before_validation :uppercase_resource_type
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
-  validates_inclusion_of :percent_enabled, in: 0..100
+  validates :percent_enabled, presence: true, inclusion: { in: 0..100 }
   validates :resource_type, presence: true, inclusion: { in: %w[User Role Instrument Profile] }
 
   def resource_enabled?(resource)
@@ -22,42 +22,6 @@ class Rollout < ApplicationRecord
     else
       ((id + offset) % total_resources).to_f / total_resources < percent_enabled / 100
     end
-  end
-
-  def green_list_includes?(resource)
-    green_list.include? resource.id
-  end
-
-  def red_list_includes?(resource)
-    red_list.include? resource.id
-  end
-
-  def add_green_list_resource(resource)
-    return false unless resource_matches_type(resource)
-
-    update_attribute(:green_list, green_list.append(resource.id))
-  end
-
-  def add_red_list_resource(resource)
-    return false unless resource_matches_type(resource)
-
-    update_attribute(:red_list, red_list.append(resource.id))
-  end
-
-  def remove_green_list_resource(resource)
-    return false unless resource_matches_type(resource)
-
-    update_attribute(:green_list, green_list.filter(resource.id))
-  end
-
-  def remove_red_list_resource(resource)
-    return false unless resource_matches_type(resource)
-
-    update_attribute(:red_list, red_list.filter(resource.id))
-  end
-
-  def percent_enabled=(num)
-    update_attribute(:percent_enabled, num)
   end
 
   private

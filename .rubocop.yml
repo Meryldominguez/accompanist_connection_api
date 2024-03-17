@@ -86,6 +86,9 @@ Lint/UselessRescue: # new in 1.43
   Enabled: true
 Lint/UselessRuby2Keywords: # new in 1.23
   Enabled: true
+Metrics/AbcSize:
+  CountRepeatedAttributes: false
+  Max: 18
 Metrics/BlockLength:
   Enabled: false
 Metrics/CollectionLiteralLength: # new in 1.47

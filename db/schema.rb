@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_01_234622) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_17_152108) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,6 +35,27 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_01_234622) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "rollout_overrides", force: :cascade do |t|
+    t.string "resource_type", null: false
+    t.bigint "resource_id", null: false
+    t.bigint "rollout_id"
+    t.boolean "allow", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["resource_type", "resource_id"], name: "index_rollout_overrides_on_resource"
+    t.index ["rollout_id"], name: "index_rollout_overrides_on_rollout_id"
+  end
+
+  create_table "rollouts", force: :cascade do |t|
+    t.string "name"
+    t.integer "percent_enabled", default: 0, null: false
+    t.integer "offset", default: 0
+    t.string "resource_type", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "unique_name", unique: true
   end
 
   create_table "user_roles", force: :cascade do |t|
@@ -64,6 +85,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_01_234622) do
 
   add_foreign_key "profiles", "instruments"
   add_foreign_key "profiles", "users"
+  add_foreign_key "rollout_overrides", "rollouts"
   add_foreign_key "user_roles", "roles"
   add_foreign_key "user_roles", "users"
 end
