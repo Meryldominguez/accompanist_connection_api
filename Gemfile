@@ -69,11 +69,11 @@ end
 group :test do
   gem 'factory_bot_rails', '~> 6.4.2'
   gem 'faker'
+  gem 'rexml', '~> 3.2', '>= 3.2.5'
   gem 'rspec-rails', '~> 6.1.0'
   gem 'simplecov', '~> 0.22.0', require: false
   gem 'timecop', '~> 0.9.8'
-  gem 'rexml', '~> 3.2', '>= 3.2.5'
-  
+
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
