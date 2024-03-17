@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :instruments, through: :profiles
   has_many :user_roles, dependent: :destroy
   has_many :roles, through: :user_roles
+  has_many :rollouts, as: :resource
 
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -24,6 +25,8 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  # def add_instrument
 
   def role?(role)
     roles.any? { |r| r.name.underscore.to_sym == role }
