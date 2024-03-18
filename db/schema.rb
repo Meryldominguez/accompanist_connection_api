@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_17_152108) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_18_010838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,6 +44,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_17_152108) do
     t.boolean "allow", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["resource_id", "resource_type", "rollout_id"], name: "idx_on_resource_id_resource_type_rollout_id_670d96db44", unique: true
     t.index ["resource_type", "resource_id"], name: "index_rollout_overrides_on_resource"
     t.index ["rollout_id"], name: "index_rollout_overrides_on_rollout_id"
   end

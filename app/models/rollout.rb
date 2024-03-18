@@ -9,19 +9,29 @@ class Rollout < ApplicationRecord
   validates :resource_type, presence: true, inclusion: { in: %w[User Role Instrument Profile] }
 
   def resource_enabled?(resource)
-    return false unless resource_matches_type(resource)
+    check_resource_type_mismatch(resource)
 
-    return false if red_list_includes?(resource)
-    return true if green_list_includes?(resource)
+    return get_override(resource).value unless get_override(resource).nil?
 
-    total_resources = resource.class.count
-    id = resource.id
+    calculate_enablement(resource)
+  end
 
-    if total_resources > 100
-      (id + offset) % 100 < percent_enabled
-    else
-      ((id + offset) % total_resources).to_f / total_resources < percent_enabled / 100
-    end
+  def get_override(resource)
+    overrides.where(resource_type: resource.class.name, resource_id: resource.id).first
+  end
+
+  def add_override(resource, action: true)
+    check_resource_type_mismatch(resource)
+    RolloutOverride.create!(resource_type: resource.class.name, resource_id: resource.id, rollout_id: id, allow: action)
+  end
+
+  def remove_override(resource)
+    check_resource_type_mismatch(resource)
+    get_override(resource).destroy
+  end
+
+  def resource_matches_rollout_type(resource)
+    resource.instance_of? resource_type.constantize
   end
 
   private
@@ -36,7 +46,17 @@ class Rollout < ApplicationRecord
     resource_type.capitalize!
   end
 
-  def resource_matches_type(resource)
-    resource.class.instance_of? resource_type.constantize
+  def calculate_enablement(resource)
+    total_resources = resource.class.count
+
+    if total_resources > 100
+      (resource.id + offset) % 100 < percent_enabled
+    else
+      ((resource.id + offset) % total_resources).to_f / total_resources < percent_enabled / 100
+    end
+  end
+
+  def check_resource_type_mismatch(resource)
+    raise "Resource class, #{resource.class.name} must be same class as Rollout resource_type, #{resource_type}" unless resource_matches_rollout_type(resource)
   end
 end
