@@ -9,7 +9,8 @@ module Rememberable
     end
 
     def remember_me!
-      admin_role.update(remember_token: SecureRandom.urlsafe_base64(15), remember_token_expires_at: Time.now + Trestle.config.auth.remember.for)
+      admin_role.update(remember_token: SecureRandom.urlsafe_base64(15),
+                        remember_token_expires_at: Time.now + Trestle.config.auth.remember.for)
     end
 
     def forget_me!

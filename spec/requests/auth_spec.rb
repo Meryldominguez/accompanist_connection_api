@@ -55,7 +55,7 @@ RSpec.describe 'Auths', type: :request do
         assert_response :bad_request
       end
       it 'should return an error message' do
-        expect(JSON(response.body)['message']).to eq('Please send both email and password')
+        expect(JSON(response.body)['message']).to eq('Missing Parameter')
         expect(JSON(response.body)['error']).to eq('param is missing or the value is empty: password')
       end
     end
@@ -68,7 +68,7 @@ RSpec.describe 'Auths', type: :request do
         assert_response :bad_request
       end
       it 'should return an error message' do
-        expect(JSON(response.body)['message']).to eq('Please send both email and password')
+        expect(JSON(response.body)['message']).to eq('Missing Parameter')
         expect(JSON(response.body)['error']).to eq('param is missing or the value is empty: email')
       end
     end

@@ -16,8 +16,8 @@ RSpec.describe 'Users', type: :request do
         expect(response).to have_http_status(:ok)
       end
       it 'should return all users' do
-        expect(JSON(response.body)['data'].count).to be 2
-        expect(JSON(response.body)['data'][0]['attributes']['id']).to equal user.id
+        expect(JSON(response.body).count).to be 2
+        expect(JSON(response.body)[0]['id']).to equal user.id
       end
     end
     context 'with unauthenticated user' do
@@ -65,11 +65,7 @@ RSpec.describe 'Users', type: :request do
         expect(response).to have_http_status(:ok)
       end
       it 'should return one user' do
-        expect(JSON(response.body)['data']['attributes']['id']).to equal user.id
-      end
-      it 'should not allow user to view profile that isnt theirs' do
-        pending 'Should this be allowed'
-        raise
+        expect(JSON(response.body)['id']).to equal user.id
       end
       context 'looking up a user that doesnt exist' do
         before do
@@ -121,7 +117,7 @@ RSpec.describe 'Users', type: :request do
             expect(response).to have_http_status(:ok)
           end
           it 'should have the updated user in the body' do
-            expect(JSON(response.body)['data']['attributes']['email']).to eq @new_email
+            expect(JSON(response.body)['email']).to eq @new_email
           end
           it 'should update a user' do
             expect(User.find(user.id).email).to eq @new_email
@@ -158,7 +154,7 @@ RSpec.describe 'Users', type: :request do
             expect(response).to have_http_status(:ok)
           end
           it 'should have the updated user in the body' do
-            expect(JSON(response.body)['data']['attributes']['email']).to eq @new_email
+            expect(JSON(response.body)['email']).to eq @new_email
           end
           it 'should update a user' do
             expect(User.find(user.id).email).to eq @new_email

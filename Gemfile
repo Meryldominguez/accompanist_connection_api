@@ -58,14 +58,18 @@ gem 'trestle-auth', '~> 0.4.4'
 
 gem 'esbuild-rails', '~> 0.1.4'
 
+gem 'graphql', '~> 2.2'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri windows]
+  gem 'graphql-schema_comparator'
 end
 
 group :test do
   gem 'factory_bot_rails', '~> 6.4.2'
   gem 'faker'
+  gem 'rexml', '~> 3.2', '>= 3.2.5'
   gem 'rspec-rails', '~> 6.1.0'
   gem 'simplecov', '~> 0.22.0', require: false
   gem 'timecop', '~> 0.9.8'
@@ -84,6 +88,7 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'graphiql-rails'
   gem 'letter_opener', '~> 1.4'
   gem 'rubocop', '~> 1.59', require: false
 end
