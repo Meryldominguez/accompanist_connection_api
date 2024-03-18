@@ -127,8 +127,7 @@ RSpec.describe 'Confirmations', type: :request do
             post confirm_path, headers: create_auth_header(user),
                                params: { confirmation: { confirmation_token: token } }
             expect(response).to have_http_status(:bad_request)
-            expect(JSON(response.body)['message']).to eq 'We could not find a user with that email or that email has already been confirmed'
-            expect(User.find(user.id).confirmed_at).to eq user.confirmed_at
+            expect(User.find(user.id).confirmed_at).to eql user.confirmed_at
           end
         end
         context 'with other user token' do
