@@ -11,7 +11,7 @@ class Rollout < ApplicationRecord
   def resource_enabled?(resource)
     check_resource_type_mismatch(resource)
 
-    return get_override(resource).value unless get_override(resource).nil?
+    return get_override(resource).allow unless get_override(resource).nil?
 
     calculate_enablement(resource)
   end
@@ -20,7 +20,7 @@ class Rollout < ApplicationRecord
     overrides.where(resource_type: resource.class.name, resource_id: resource.id).first
   end
 
-  def add_override(resource, action: true)
+  def add_override(resource, action)
     check_resource_type_mismatch(resource)
     RolloutOverride.create!(resource_type: resource.class.name, resource_id: resource.id, rollout_id: id, allow: action)
   end

@@ -7,7 +7,7 @@ FactoryBot.define do
     offset { 0 }
     overrides { [] }
     resource_type { 'User' }
-    trait :with_user do
+    trait :with_user_resource do
       resource_type { 'User' }
     end
     # trait :with_overrides do
