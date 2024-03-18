@@ -13,7 +13,7 @@ class Rollout < ApplicationRecord
 
     return get_override(resource).allow unless get_override(resource).nil?
 
-    calculate_enablement(resource)
+    id_enabled?(resource.id)
   end
 
   def get_override(resource)
@@ -34,6 +34,14 @@ class Rollout < ApplicationRecord
     resource.instance_of? resource_type.constantize
   end
 
+  def id_enabled?(num, total: 100)
+    if (num + offset) >= 100
+      (num + offset) % 100 < percent_enabled
+    else
+      (((num.to_f / total) + (offset.to_f / 100)) * 100) < percent_enabled
+    end
+  end
+
   private
 
   def set_offset
@@ -44,16 +52,6 @@ class Rollout < ApplicationRecord
     return if resource_type.nil?
 
     resource_type.capitalize!
-  end
-
-  def calculate_enablement(resource)
-    total_resources = resource.class.count
-
-    if total_resources > 100
-      (resource.id + offset) % 100 < percent_enabled
-    else
-      ((resource.id + offset) % total_resources).to_f / total_resources < percent_enabled / 100
-    end
   end
 
   def check_resource_type_mismatch(resource)
