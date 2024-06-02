@@ -1,4 +1,5 @@
 import { Navigate } from 'react-router-dom'
+import Landing from './components/Landing'
 import { Root } from './components/Root'
 
 interface Route {
@@ -12,13 +13,13 @@ type Routes = Route[]
 
 const loginRoutes: Routes = [
   {
-    path: 'login',
-    Component: () => <h1>Login Index</h1>,
+    path: '/',
+    Component: () => <Landing />,
   },
 ]
 const authRoutes: Routes = [
   {
-    path: '/',
+    path: '/home',
     Component: () => <h1>test</h1>,
   },
 ]
@@ -36,7 +37,7 @@ const generateRoutes = (isAuth: boolean) => [
   },
   {
     path: '*',
-    Component: () => <Navigate to={isAuth ? '/' : '/login'} replace />,
+    Component: () => <Navigate to={isAuth ? '/home' : '/'} replace />,
   },
 ]
 

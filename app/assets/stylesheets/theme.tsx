@@ -29,6 +29,9 @@ const COLORS = {
     dark: '#a30000',
   },
 }
+const addTransparency = (percent: number, hexColor: string) => {
+  return '#' + hexColor.substring(1) + Math.ceil((percent * 255) / 100).toString(16)
+}
 
 export const theme = createTheme({
   palette: {
@@ -68,6 +71,9 @@ export const theme = createTheme({
     },
   },
   components: {
+    MuiTypography: {
+      styleOverrides: {},
+    },
     MuiAppBar: {
       styleOverrides: {
         root: ({ ownerState }) => ({
@@ -83,9 +89,9 @@ export const theme = createTheme({
         root: ({ ownerState }) => ({
           ...(ownerState.variant === 'outlined' && {
             backgroundColor: COLORS.white,
-            border: `2px solid ${COLORS.primary.main + '38'}`,
+            border: `2px solid ${addTransparency(30, COLORS.primary.main)}`,
             '&:hover': {
-              backgroundColor: ownerState.color,
+              backgroundColor: COLORS.primary.main,
               color: COLORS.white,
               border: `2px solid ${COLORS.white}`,
             },
