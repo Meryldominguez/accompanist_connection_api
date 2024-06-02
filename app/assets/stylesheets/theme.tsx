@@ -86,7 +86,7 @@ export const theme = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: ({ ownerState }) => ({
+        root: ({ ownerState }) =>  ({
           ...(ownerState.variant === 'outlined' && {
             backgroundColor: COLORS.white,
             border: `2px solid ${addTransparency(30, COLORS.primary.main)}`,
@@ -96,7 +96,14 @@ export const theme = createTheme({
               border: `2px solid ${COLORS.white}`,
             },
           }),
-        }),
+        })
+      },
+    },
+    MuiModal: {
+      styleOverrides: {
+        backdrop: {
+          backgroundColor: addTransparency(50, COLORS.secondary.light),
+        },
       },
     },
   },

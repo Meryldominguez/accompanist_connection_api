@@ -6,6 +6,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 
 interface SignupFormInput {
+  firstName: string
+  lastName: string
   email: string
   password: string
   confirmPassword: string
@@ -13,7 +15,9 @@ interface SignupFormInput {
 
 const schema = yup
   .object({
-    email: yup.string().email().required(),
+    firstName: yup.string().required("First name is required"),
+    lastName: yup.string().required("Last name is required"),
+    email: yup.string().email().required("Email is required"),
     password: yup
       .string()
       .min(6, 'Password must be over 6 characters long')
@@ -42,9 +46,44 @@ const SignupForm: FunctionComponent = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        <Typography variant="h2" align="center">
-          Login
+        <Typography variant="h2" align="center" margin={1}>
+          Signup
         </Typography>
+        <Stack direction='row' spacing={1}>
+                    <Controller
+            name="firstName"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                color="secondary"
+                id="outlined-required"
+                label="First name"
+                autoComplete="current-first-name"
+                error={Boolean(errors.firstName)}
+                helperText={errors.firstName?.message}
+                sx={{ minHeight: '80px' }}
+                {...field}
+              />
+            )} 
+          />
+          <Controller
+            name="lastName"
+            control={control}
+            render={({ field }) => (
+              <TextField
+                color="secondary"
+                id="outlined-required"
+                label="Last Name"
+                autoComplete="current-last-name"
+                error={Boolean(errors.lastName)}
+                helperText={errors.lastName?.message}
+                sx={{ minHeight: '80px' }}
+                {...field}
+              />
+            )} 
+          />
+        </Stack>
+
         <Controller
           name="email"
           control={control}

@@ -14,7 +14,7 @@ type Routes = Route[]
 const loginRoutes: Routes = [
   {
     path: '/',
-    Component: () => <Landing />,
+    Component: () => < Landing />,
   },
 ]
 const authRoutes: Routes = [

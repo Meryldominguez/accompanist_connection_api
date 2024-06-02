@@ -3,6 +3,8 @@ import Button, { ButtonOwnProps } from '@mui/material/Button'
 import { useState } from 'react'
 import LoginModal from './LoginModal'
 import { BreakPointsProps } from './types/stylingTypes'
+import { useState } from 'react'
+import LoginModal from './LoginModal'
 
 type SignupLoginButtonGroupProps = {
   baseColor?: 'primary' | 'secondary'

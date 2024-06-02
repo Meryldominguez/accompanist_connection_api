@@ -31,7 +31,7 @@ const LoginForm: FunctionComponent = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack>
-        <Typography variant="h2" align="center">
+        <Typography variant="h2" align="center" margin={1}>
           Login
         </Typography>
         <Controller
