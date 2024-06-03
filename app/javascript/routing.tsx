@@ -14,13 +14,13 @@ type Routes = Route[]
 const loginRoutes: Routes = [
   {
     path: '/',
-    Component: () => < Landing />,
+    Component: () => <Landing />,
   },
 ]
 const authRoutes: Routes = [
   {
     path: '/home',
-    Component: () => <h1>test</h1>,
+    Component: () => <h1>You are logged in!</h1>,
   },
 ]
 const publicRoutes: Routes = [

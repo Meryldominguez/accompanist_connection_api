@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField/TextField'
 import { FunctionComponent } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import useCreateUser from '../hooks/useCreateUser'
 
 interface SignupFormInput {
   firstName: string
@@ -15,9 +16,9 @@ interface SignupFormInput {
 
 const schema = yup
   .object({
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("Last name is required"),
-    email: yup.string().email().required("Email is required"),
+    firstName: yup.string().required('First name is required'),
+    lastName: yup.string().required('Last name is required'),
+    email: yup.string().email().required('Email is required'),
     password: yup
       .string()
       .min(6, 'Password must be over 6 characters long')
@@ -38,9 +39,15 @@ const SignupForm: FunctionComponent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
+  const createUser = useCreateUser()
 
   const onSubmit: SubmitHandler<SignupFormInput> = (data) => {
-    console.log(data)
+    createUser.mutate({
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      password: data.password,
+    })
   }
 
   return (
@@ -49,8 +56,8 @@ const SignupForm: FunctionComponent = () => {
         <Typography variant="h2" align="center" margin={1}>
           Signup
         </Typography>
-        <Stack direction='row' spacing={1}>
-                    <Controller
+        <Stack direction="row" spacing={1}>
+          <Controller
             name="firstName"
             control={control}
             render={({ field }) => (
@@ -64,7 +71,7 @@ const SignupForm: FunctionComponent = () => {
                 sx={{ minHeight: '80px' }}
                 {...field}
               />
-            )} 
+            )}
           />
           <Controller
             name="lastName"
@@ -80,7 +87,7 @@ const SignupForm: FunctionComponent = () => {
                 sx={{ minHeight: '80px' }}
                 {...field}
               />
-            )} 
+            )}
           />
         </Stack>
 

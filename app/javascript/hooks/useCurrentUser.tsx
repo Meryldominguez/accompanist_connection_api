@@ -9,7 +9,7 @@ export const useCurrentUser = () => {
   return useQuery({
     queryKey: ['user', token],
     queryFn: fetchCurrentUser,
-    select: (data) => data.user.data.attributes,
+    select: (data) => data.user,
     enabled: !!token,
     retry: 1,
   })

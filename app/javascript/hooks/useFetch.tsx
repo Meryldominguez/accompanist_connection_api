@@ -6,19 +6,15 @@ type requestObject = {
   data?: object
   headers: { 'Content-Type': string; Authorization?: string }
 }
-const useFetch = (
-  method: Method = 'GET',
-  url: string,
-  body?: object,
-  token: string | null = localStorage.getItem('token')
-) => {
+const useFetch = (method: Method = 'GET', url: string, body?: object, withAuth: boolean = true) => {
   const requestObject: requestObject = {
     method: method,
     url: url,
     data: body,
     headers: { 'Content-Type': 'application/json' },
   }
-  if (token) requestObject.headers['Authorization'] = `Bearer ${token}`
+  if (withAuth && localStorage.getItem('token'))
+    requestObject.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`
   return axios(requestObject).then((res) => res.data)
 }
 
