@@ -3,8 +3,10 @@ import { Button, Stack, Typography } from '@mui/material'
 import TextField from '@mui/material/TextField/TextField'
 import { FunctionComponent } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import * as yup from 'yup'
 import useCreateUser from '../hooks/useCreateUser'
+import { useCurrentUserContext } from '../providers/CurrentUserProvider'
 
 interface SignupFormInput {
   firstName: string
@@ -34,24 +36,35 @@ const schema = yup
   .required()
 
 const SignupForm: FunctionComponent = () => {
+  const navigate = useNavigate()
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
   const createUser = useCreateUser()
+  const { setToken } = useCurrentUserContext()
 
   const onSubmit: SubmitHandler<SignupFormInput> = (data) => {
-    createUser.mutate({
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      password: data.password,
-    })
+    createUser.mutate(
+      {
+        first_name: data.firstName,
+        last_name: data.lastName,
+        email: data.email,
+        password: data.password,
+      },
+      {
+        onSuccess: (data) => {
+          localStorage.setItem('token', data.token)
+          setToken(data.token)
+        },
+      }
+    )
+    return navigate('/home')
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={() => handleSubmit(onSubmit)}>
       <Stack>
         <Typography variant="h2" align="center" margin={1}>
           Signup
@@ -142,7 +155,14 @@ const SignupForm: FunctionComponent = () => {
             />
           )}
         />
-        <Button variant="outlined" color="primary" size="large" type="submit" sx={{ margin: 2 }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="large"
+          type="submit"
+          sx={{ margin: 2 }}
+          disabled={createUser.isPending}
+        >
           Signup
         </Button>
       </Stack>

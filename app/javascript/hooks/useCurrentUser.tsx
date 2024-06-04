@@ -3,11 +3,9 @@ import useFetch from './useFetch'
 
 export const fetchCurrentUser = () => useFetch('POST', '/auth/current_user')
 
-export const useCurrentUser = () => {
-  const token = localStorage.getItem('token')
-
+export const useCurrentUser = (token: string | null) => {
   return useQuery({
-    queryKey: ['user', token],
+    queryKey: ['currentUser', token],
     queryFn: fetchCurrentUser,
     select: (data) => data.user,
     enabled: !!token,

@@ -16,13 +16,13 @@ import LogoHeader from './LogoHeader'
 import SignupLoginButtonGroup from './SignupLoginButtonGroup'
 
 const pages = ['Products', 'Pricing', 'Blog']
-const settings = ['Profile', 'Account', 'Logout']
+// const settings = ['Profile', 'Account', 'Logout']
 
 const Header = () => {
   // ADD dropdown drawer for menu when xs
   // https://mui.com/material-ui/react-drawer/
 
-  const { data: currentUser } = useCurrentUserContext()
+  const { data: currentUser, setToken } = useCurrentUserContext()
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
@@ -40,6 +40,10 @@ const Header = () => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
+  }
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    setToken(null)
   }
 
   return (
@@ -94,7 +98,7 @@ const Header = () => {
             <Box sx={{ flexGrow: 0, paddingLeft: 3 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={currentUser.full_name} src="/static/images/avatar/2.jpg" />
+                  <Avatar alt={currentUser.first_name} src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -113,11 +117,9 @@ const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
+                <MenuItem key="Logout" onClick={handleLogout}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
               </Menu>
             </Box>
           ) : (

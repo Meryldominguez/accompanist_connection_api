@@ -20,7 +20,6 @@ const SignupLoginButtonGroup = ({
 
   const handleOpen = (mode: 'signup' | 'login') => {
     if (mode == 'signup') {
-      console.log(mode)
       setSignupMode(true)
     }
     setOpenModal(true)

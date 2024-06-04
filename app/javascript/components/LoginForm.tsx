@@ -4,6 +4,8 @@ import TextField from '@mui/material/TextField/TextField'
 import { FunctionComponent } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
+import useLoginUser from '../hooks/useLoginUser'
+import { useCurrentUserContext } from '../providers/CurrentUserProvider'
 
 interface LoginFormInput {
   email: string
@@ -23,10 +25,18 @@ const LoginForm: FunctionComponent = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) })
-
-  const onSubmit: SubmitHandler<LoginFormInput> = (data) => {
-    console.log(data)
-  }
+  const loginUser = useLoginUser()
+  const { setToken } = useCurrentUserContext()
+  const onSubmit: SubmitHandler<LoginFormInput> = (data) =>
+    loginUser.mutate(
+      { email: data.email, password: data.password },
+      {
+        onSuccess: (data) => {
+          localStorage.setItem('token', data.token)
+          setToken(data.token)
+        },
+      }
+    )
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,7 +78,14 @@ const LoginForm: FunctionComponent = () => {
             />
           )}
         />
-        <Button variant="outlined" color="primary" size="large" type="submit" sx={{ margin: 2 }}>
+        <Button
+          variant="outlined"
+          color="primary"
+          size="large"
+          type="submit"
+          sx={{ margin: 2 }}
+          disabled={loginUser.isPending}
+        >
           Login
         </Button>
       </Stack>

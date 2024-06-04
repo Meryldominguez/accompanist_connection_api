@@ -5,6 +5,7 @@ type loginUserObject = {
   email: string
   password: string
 }
+
 const fetchLoginUser = (data: loginUserObject) => useFetch('POST', '/auth/login', data, false)
 
 const useLoginUser = () =>
